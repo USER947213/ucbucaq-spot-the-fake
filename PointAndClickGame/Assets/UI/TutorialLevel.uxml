@@ -1,0 +1,31 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements">
+    <Style src="TutorialLevel.uss" />
+    <ui:VisualElement name="browser-window" class="browser-window">
+        <!-- Browser Header (URL Bar) -->
+        <ui:VisualElement name="browser-header" class="browser-header">
+            <ui:Label text="🔒" name="lock-icon" class="lock-icon phishing-target" tooltip="В настоящем браузере замок серый, а здесь он нарисован текстом! Кликните на него." />
+            <ui:Label text="https://www.sberbank-login-secure.xyz/login" name="url-text" class="url-text phishing-target" tooltip="Официальный адрес банка короткий. Этот адрес длинный, странный и имеет домен .xyz." />
+        </ui:VisualElement>
+
+        <!-- Webpage Content -->
+        <ui:VisualElement class="webpage-content">
+            <ui:Label text="СБЕР БАНК Онлайн" class="bank-logo" />
+            <ui:VisualElement class="login-form">
+                <ui:Label text="Вход в личный кабинет" class="form-title" />
+                
+                <ui:TextField label="Логин (Телефон)" class="input-field" />
+                <ui:TextField label="Пароль" password="true" class="input-field" />
+                
+                <!-- Phishing Trap: CVV field in login -->
+                <ui:TextField label="CVV код с обратной стороны карты" name="cvv-trap" class="input-field phishing-target" tooltip="Ни один банк никогда не просит CVV-код при входе в личный кабинет! Это обман." />
+
+                <ui:Button text="Войти" class="login-button" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        
+        <ui:VisualElement class="tutorial-instructions">
+            <ui:Label text="Добро пожаловать в обучение!" class="tutorial-title" />
+            <ui:Label text="Ваша задача — кликать на всё подозрительное. На этом уровне 3 явные уловки. Найдите их все! Если уловок нет - жмите 'Страница безопасна' внизу." class="tutorial-text" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

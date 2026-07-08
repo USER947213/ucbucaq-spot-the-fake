@@ -1,0 +1,120 @@
+.browser-window {
+    flex-grow: 1;
+    background-color: white;
+}
+
+.browser-header {
+    flex-direction: row;
+    background-color: rgb(240, 240, 240);
+    padding: 10px;
+    align-items: center;
+    border-bottom-width: 1px;
+    border-bottom-color: rgb(200, 200, 200);
+}
+
+.lock-icon {
+    font-size: 20px;
+    margin-right: 10px;
+    cursor: link;
+}
+
+.url-text {
+    font-size: 18px;
+    color: rgb(50, 50, 50);
+    flex-grow: 1;
+    background-color: white;
+    padding: 5px 10px;
+    border-radius: 15px;
+    border-width: 1px;
+    border-color: rgb(200, 200, 200);
+    cursor: link;
+}
+
+.webpage-content {
+    flex-grow: 1;
+    align-items: center;
+    padding-top: 50px;
+}
+
+.bank-logo {
+    font-size: 40px;
+    -unity-font-style: bold;
+    color: rgb(33, 160, 56);
+    margin-bottom: 40px;
+}
+
+.login-form {
+    width: 400px;
+    background-color: white;
+    padding: 30px;
+    border-radius: 10px;
+    border-width: 1px;
+    border-color: rgb(220, 220, 220);
+    border-bottom-width: 3px;
+    border-right-width: 2px;
+}
+
+.form-title {
+    font-size: 24px;
+    -unity-font-style: bold;
+    margin-bottom: 20px;
+    -unity-text-align: middle-center;
+}
+
+.input-field {
+    margin-bottom: 15px;
+}
+
+.input-field > .unity-label {
+    min-width: 0;
+    margin-bottom: 5px;
+}
+
+.login-button {
+    background-color: rgb(33, 160, 56);
+    color: white;
+    font-size: 18px;
+    -unity-font-style: bold;
+    padding: 12px;
+    border-radius: 5px;
+    margin-top: 20px;
+    cursor: link;
+}
+
+.tutorial-instructions {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    width: 350px;
+    background-color: rgba(41, 128, 185, 0.95);
+    padding: 20px;
+    border-radius: 10px;
+    border-width: 2px;
+    border-color: white;
+}
+
+.tutorial-title {
+    color: white;
+    font-size: 20px;
+    -unity-font-style: bold;
+    margin-bottom: 10px;
+}
+
+.tutorial-text {
+    color: white;
+    font-size: 16px;
+    white-space: normal;
+}
+
+/* Status classes added dynamically by C# script */
+.phishing-found {
+    border-width: 3px !important;
+    border-color: rgb(46, 204, 113) !important;
+    background-color: rgba(46, 204, 113, 0.1) !important;
+}
+
+.miss-click {
+    border-width: 3px !important;
+    border-color: rgb(231, 76, 60) !important;
+    background-color: rgba(231, 76, 60, 0.1) !important;
+}

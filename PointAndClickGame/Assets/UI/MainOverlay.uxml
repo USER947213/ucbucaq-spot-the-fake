@@ -1,0 +1,31 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements">
+    <Style src="MainOverlay.uss" />
+    <ui:VisualElement name="root-container" class="root-container">
+        <!-- Overlay for Score and Lives -->
+        <ui:VisualElement name="top-bar" class="top-bar">
+            <ui:Label name="score-label" text="Очки: 0" class="header-text" />
+            <ui:Label name="lives-label" text="Жизни: ❤️❤️❤️" class="header-text" />
+        </ui:VisualElement>
+        
+        <!-- Container for the dynamic level content -->
+        <ui:VisualElement name="level-container" class="level-container" />
+        
+        <!-- Overlay for Progress and Action Button -->
+        <ui:VisualElement name="bottom-bar" class="bottom-bar">
+            <ui:Label name="progress-label" text="Найдено уловок: 0 / 0" class="header-text" />
+            <ui:Button name="safe-button" text="Страница безопасна" class="action-button" />
+        </ui:VisualElement>
+        
+        <!-- Game Over Screen (Hidden by default) -->
+        <ui:VisualElement name="game-over-screen" class="game-over-screen hidden">
+            <ui:Label text="ИГРА ОКОНЧЕНА" class="game-over-title" />
+            <ui:Label name="final-score-label" text="Итоговый счет: 0" class="game-over-text" />
+            <ui:Button name="restart-button" text="Играть снова" class="action-button" />
+        </ui:VisualElement>
+
+        <!-- Tooltip overlay -->
+        <ui:VisualElement name="tooltip-overlay" class="tooltip-overlay hidden">
+            <ui:Label name="tooltip-text" text="Подсказка" class="tooltip-text" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

@@ -1,0 +1,11 @@
+# Project Rules
+
+## Core Directive
+- **Always write clean code** (Всегда писать чистый код / clean code).
+
+## Code Quality Standards
+1. **Readability & Simplicity**: Code must be readable, self-explanatory, and simple. Avoid over-engineering.
+2. **Single Responsibility**: Each class, module, and function should have one responsibility.
+3. **Naming Conventions**: Use descriptive, meaningful names for variables, functions, classes, and files.
+4. **No Code Smells**: Refactor duplicate code, keep functions small, and avoid deep nesting.
+5. **Clean History**: Ensure no unused imports, variables, or commented-out code blocks are left behind.
