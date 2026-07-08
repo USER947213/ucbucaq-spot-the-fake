@@ -1,52 +1,58 @@
 .root-container {
     flex-grow: 1;
     justify-content: space-between;
-    background-color: rgb(30, 30, 30);
+    background-color: rgb(15, 23, 42);
 }
 
 .top-bar {
     flex-direction: row;
     justify-content: space-between;
-    padding: 10px 20px;
-    background-color: rgb(20, 20, 20);
-    border-bottom-width: 2px;
-    border-bottom-color: rgb(50, 50, 50);
+    padding: 16px 32px;
+    background-color: rgba(30, 41, 59, 0.95);
+    border-bottom-width: 1px;
+    border-bottom-color: rgba(255, 255, 255, 0.1);
 }
 
 .bottom-bar {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    padding: 15px 20px;
-    background-color: rgb(20, 20, 20);
-    border-top-width: 2px;
-    border-top-color: rgb(50, 50, 50);
+    padding: 20px 32px;
+    background-color: rgba(30, 41, 59, 0.95);
+    border-top-width: 1px;
+    border-top-color: rgba(255, 255, 255, 0.1);
 }
 
 .header-text {
-    color: white;
-    font-size: 24px;
+    color: rgb(241, 245, 249);
+    font-size: 26px;
     -unity-font-style: bold;
 }
 
 .level-container {
     flex-grow: 1;
-    background-color: rgb(240, 242, 245); /* Make the fake browser page light grey/white */
+    background-color: rgb(248, 250, 252);
+    margin: 30px 50px;
+    border-radius: 16px;
+    overflow: hidden;
 }
 
 .action-button {
-    background-color: rgb(46, 204, 113);
+    background-color: rgb(16, 185, 129);
     color: white;
-    font-size: 20px;
-    padding: 10px 20px;
-    border-radius: 8px;
+    font-size: 22px;
+    padding: 14px 32px;
+    border-radius: 10px;
     -unity-font-style: bold;
     cursor: link;
     border-width: 0;
+    transition-duration: 0.2s;
+    transition-property: background-color, scale;
 }
 
 .action-button:hover {
-    background-color: rgb(39, 174, 96);
+    background-color: rgb(5, 150, 105);
+    scale: 1.05 1.05;
 }
 
 .game-over-screen {
@@ -55,22 +61,23 @@
     top: 0;
     right: 0;
     bottom: 0;
-    background-color: rgba(0, 0, 0, 0.85);
+    background-color: rgba(15, 23, 42, 0.95);
     align-items: center;
     justify-content: center;
 }
 
 .game-over-title {
-    color: rgb(231, 76, 60);
-    font-size: 64px;
+    color: rgb(239, 68, 68);
+    font-size: 80px;
     -unity-font-style: bold;
     margin-bottom: 20px;
+    letter-spacing: 2px;
 }
 
 .game-over-text {
-    color: white;
-    font-size: 32px;
-    margin-bottom: 40px;
+    color: rgb(241, 245, 249);
+    font-size: 36px;
+    margin-bottom: 60px;
 }
 
 .hidden {
@@ -79,17 +86,20 @@
 
 .tooltip-overlay {
     position: absolute;
-    bottom: 100px;
+    bottom: 140px;
     align-self: center;
-    background-color: rgba(0, 0, 0, 0.9);
-    padding: 20px;
-    border-radius: 12px;
+    background-color: rgba(15, 23, 42, 0.98);
+    padding: 24px 36px;
+    border-radius: 16px;
     border-width: 2px;
-    border-color: rgb(46, 204, 113);
+    border-color: rgb(56, 189, 248);
+    width: 90%;
+    max-width: 700px;
 }
 
 .tooltip-text {
-    color: white;
-    font-size: 20px;
+    color: rgb(241, 245, 249);
+    font-size: 24px;
     -unity-text-align: middle-center;
+    white-space: normal;
 }

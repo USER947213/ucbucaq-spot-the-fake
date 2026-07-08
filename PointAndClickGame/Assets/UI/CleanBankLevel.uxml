@@ -1,0 +1,28 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements">
+    <Style src="TutorialLevel.uss" />
+    <ui:VisualElement name="browser-window" class="browser-window">
+        <!-- Browser Header (URL Bar) -->
+        <ui:VisualElement name="browser-header" class="browser-header">
+            <ui:Label text="🔒" name="lock-icon" class="lock-icon" />
+            <ui:Label text="https://sberbank.ru/login" name="url-text" class="url-text" />
+        </ui:VisualElement>
+
+        <!-- Webpage Content -->
+        <ui:VisualElement class="webpage-content">
+            <ui:Label text="СБЕР БАНК Онлайн" class="bank-logo" />
+            <ui:VisualElement class="login-form">
+                <ui:Label text="Вход в личный кабинет" class="form-title" />
+                
+                <ui:TextField label="Логин (Телефон)" class="input-field" />
+                <ui:TextField label="Пароль" password="true" class="input-field" />
+                
+                <!-- Notice: NO CVV field here by default, it's a clean template. -->
+                <ui:VisualElement name="cvv-container" style="display: none;">
+                    <ui:TextField label="CVV код с обратной стороны карты" name="cvv-trap" class="input-field" />
+                </ui:VisualElement>
+
+                <ui:Button text="Войти" class="login-button" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

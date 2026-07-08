@@ -1,14 +1,18 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
 public class GameManager : MonoBehaviour
 {
     public UIDocument mainUIDocument;
     public VisualTreeAsset tutorialLevelAsset; 
+    public ProceduralLevelGenerator levelGenerator;
 
     private int score = 0;
     private int lives = 3;
+    private int currentLevel = 0;
     
     // UI Elements
     private Label scoreLabel;
@@ -31,6 +35,7 @@ public class GameManager : MonoBehaviour
 
     void Start()
     {
+        if (levelGenerator == null) levelGenerator = GetComponent<ProceduralLevelGenerator>();
         InitializeUI();
         StartTutorialLevel();
     }
@@ -60,6 +65,7 @@ public class GameManager : MonoBehaviour
 
     private void StartTutorialLevel()
     {
+        currentLevel = 0;
         isLevelOver = false;
         levelContainer.Clear();
         
@@ -77,11 +83,37 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    private void StartNextProceduralLevel()
+    {
+        currentLevel++;
+        isLevelOver = false;
+        levelContainer.Clear();
+        
+        if (levelGenerator != null)
+        {
+            totalTrapsInLevel = levelGenerator.GenerateLevel(levelContainer, currentLevel);
+            foundTrapsInLevel = 0;
+            UpdateProgress();
+            
+            // Re-setup traps after generation
+            SetupTraps(levelContainer);
+        }
+        else
+        {
+            Debug.LogError("ProceduralLevelGenerator is missing!");
+        }
+    }
+
     private void SetupTraps(VisualElement rootElement)
     {
         // Find all elements marked as phishing targets
         var traps = rootElement.Query<VisualElement>(className: "phishing-target").ToList();
-        totalTrapsInLevel = traps.Count;
+        
+        // If it's tutorial, we use the counted traps, if it's procedural, we already set totalTrapsInLevel
+        if (currentLevel == 0) 
+        {
+            totalTrapsInLevel = traps.Count;
+        }
         foundTrapsInLevel = 0;
         UpdateProgress();
 
@@ -167,7 +199,14 @@ public class GameManager : MonoBehaviour
     private void LevelPassed()
     {
         isLevelOver = true;
-        ShowTooltip("Уровень пройден! Отличная работа.");
+        ShowTooltip("Уровень пройден! Загрузка следующего...");
+        StartCoroutine(LoadNextLevelAfterDelay(2.5f));
+    }
+
+    private IEnumerator LoadNextLevelAfterDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        StartNextProceduralLevel();
     }
 
     private void GameOver()
