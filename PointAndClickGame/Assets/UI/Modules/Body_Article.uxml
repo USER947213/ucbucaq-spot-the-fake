@@ -1,0 +1,10 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements">
+    <ui:VisualElement style="padding: 40px 80px;">
+        <ui:Label text="Новости Безопасности" style="font-size: 32px; color: black; -unity-font-style: bold; margin-bottom: 20px;" />
+        <ui:Label text="Сегодня эксперты обнаружили новую угрозу фишинга. Злоумышленники используют продвинутые методы генерации сайтов, чтобы обмануть пользователей. Всегда проверяйте адресную строку и наличие подозрительных элементов." style="color: rgb(50, 50, 50); font-size: 18px; white-space: normal; margin-bottom: 20px;" />
+        <ui:Button name="download-button" text="Скачать Антивирус" style="background-color: rgb(59, 130, 246); color: white; padding: 10px 20px; font-size: 16px; border-radius: 5px; border-width: 0; align-self: flex-start;" />
+        <ui:VisualElement name="article-ad-container" style="margin-top: 30px; min-height: 100px;">
+            <!-- Placeholder for injected ads or anomalies -->
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

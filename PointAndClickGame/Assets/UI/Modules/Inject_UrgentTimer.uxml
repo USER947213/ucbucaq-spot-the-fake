@@ -1,0 +1,7 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements">
+    <ui:VisualElement name="urgent-timer-trap" class="phishing-target" tooltip="Срочность и таймеры — классический прием мошенников, чтобы заставить вас паниковать и совершить ошибку." style="background-color: rgb(254, 226, 226); border-width: 2px; border-color: rgb(239, 68, 68); border-radius: 8px; padding: 15px; margin-bottom: 20px; align-items: center;">
+        <ui:Label text="ВНИМАНИЕ! ВАШ АККАУНТ БУДЕТ ЗАБЛОКИРОВАН ЧЕРЕЗ:" style="color: rgb(185, 28, 28); -unity-font-style: bold; font-size: 16px; margin-bottom: 5px;" />
+        <ui:Label text="04:59" style="color: rgb(220, 38, 38); -unity-font-style: bold; font-size: 32px;" />
+        <ui:Button text="Отменить блокировку" style="background-color: rgb(239, 68, 68); color: white; padding: 8px 16px; margin-top: 10px; border-width: 0; border-radius: 5px; -unity-font-style: bold;" />
+    </ui:VisualElement>
+</ui:UXML>

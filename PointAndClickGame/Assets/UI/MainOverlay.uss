@@ -1,105 +1,259 @@
 .root-container {
     flex-grow: 1;
-    justify-content: space-between;
-    background-color: rgb(15, 23, 42);
+    background-color: #eff0f3;
 }
 
-.top-bar {
-    flex-direction: row;
-    justify-content: space-between;
-    padding: 16px 32px;
-    background-color: rgba(30, 41, 59, 0.95);
-    border-bottom-width: 1px;
-    border-bottom-color: rgba(255, 255, 255, 0.1);
-}
-
-.bottom-bar {
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    padding: 20px 32px;
-    background-color: rgba(30, 41, 59, 0.95);
-    border-top-width: 1px;
-    border-top-color: rgba(255, 255, 255, 0.1);
-}
-
-.header-text {
-    color: rgb(241, 245, 249);
-    font-size: 26px;
+/* Глобальное правило для улучшения четкости любого текста */
+Label {
     -unity-font-style: bold;
-}
-
-.level-container {
-    flex-grow: 1;
-    background-color: rgb(248, 250, 252);
-    margin: 30px 50px;
-    border-radius: 16px;
-    overflow: hidden;
-}
-
-.action-button {
-    background-color: rgb(16, 185, 129);
-    color: white;
-    font-size: 22px;
-    padding: 14px 32px;
-    border-radius: 10px;
-    -unity-font-style: bold;
-    cursor: link;
-    border-width: 0;
-    transition-duration: 0.2s;
-    transition-property: background-color, scale;
-}
-
-.action-button:hover {
-    background-color: rgb(5, 150, 105);
-    scale: 1.05 1.05;
-}
-
-.game-over-screen {
-    position: absolute;
-    left: 0;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgba(15, 23, 42, 0.95);
-    align-items: center;
-    justify-content: center;
-}
-
-.game-over-title {
-    color: rgb(239, 68, 68);
-    font-size: 80px;
-    -unity-font-style: bold;
-    margin-bottom: 20px;
-    letter-spacing: 2px;
-}
-
-.game-over-text {
-    color: rgb(241, 245, 249);
-    font-size: 36px;
-    margin-bottom: 60px;
 }
 
 .hidden {
     display: none;
 }
 
+/* --- MENU SCREEN --- */
+.menu-screen {
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(239, 240, 243, 0.95);
+}
+
+.menu-panel {
+    background-color: #fffffe;
+    border-radius: 24px;
+    padding: 60px 80px;
+    border-width: 3px;
+    border-color: #0d0d0d;
+    align-items: center;
+    width: 700px;
+}
+
+.start-panel {
+    width: 900px;
+    padding: 80px;
+    align-items: flex-start;
+}
+
+.start-title {
+    color: #ff8e3c;
+    font-size: 48px;
+    -unity-font-style: bold;
+    white-space: normal;
+    margin-bottom: 30px;
+    letter-spacing: 2px;
+}
+
+.start-subtitle {
+    color: #2a2a2a;
+    font-size: 26px;
+    white-space: normal;
+    margin-bottom: 60px;
+}
+
+.start-hint-box {
+    background-color: #0d0d0d;
+    padding: 24px 48px;
+    border-radius: 16px;
+    align-self: center;
+    margin-top: 20px;
+    transition-duration: 0.2s;
+    transition-property: scale;
+}
+
+.start-hint-box:hover {
+    scale: 1.02 1.02;
+}
+
+.start-hint-text {
+    color: #eff0f3;
+    font-size: 22px;
+    -unity-font-style: bold;
+    letter-spacing: 2px;
+}
+
+.border-red {
+    border-color: #d9376e;
+}
+
+.game-title {
+    color: #0d0d0d;
+    font-size: 56px;
+    -unity-font-style: bold;
+    letter-spacing: 4px;
+    margin-bottom: 10px;
+    -unity-text-align: middle-center;
+}
+
+.game-subtitle {
+    color: #2a2a2a;
+    font-size: 20px;
+    margin-bottom: 50px;
+    -unity-text-align: middle-center;
+}
+
+.footer-hint {
+    color: #2a2a2a;
+    font-size: 20px;
+    margin-top: 40px;
+    -unity-font-style: bold;
+    letter-spacing: 1px;
+}
+
+.menu-buttons-container {
+    width: 100%;
+    flex-direction: column;
+}
+
+.menu-button {
+    font-size: 24px;
+    padding: 20px;
+    border-radius: 16px;
+    -unity-font-style: bold;
+    margin-bottom: 20px;
+    border-width: 3px;
+    border-color: #0d0d0d;
+    transition-duration: 0.15s;
+    transition-property: scale;
+    cursor: link;
+}
+
+.btn-primary {
+    background-color: #ff8e3c;
+    color: #0d0d0d;
+}
+
+.btn-primary:hover {
+    scale: 1.05 1.05;
+}
+
+.btn-secondary {
+    background-color: #fffffe;
+    color: #0d0d0d;
+}
+
+.btn-secondary:hover {
+    scale: 1.05 1.05;
+}
+
+/* GAME OVER */
+.game-over-title {
+    color: #d9376e;
+    font-size: 56px;
+    -unity-font-style: bold;
+    letter-spacing: 4px;
+    margin-bottom: 15px;
+    -unity-text-align: middle-center;
+}
+
+/* GAME SCREEN */
+.game-screen {
+    flex-grow: 1;
+    justify-content: space-between;
+}
+
+.top-bar, .bottom-bar {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 40px;
+    background-color: #fffffe;
+    border-color: #0d0d0d;
+}
+
+.top-bar {
+    border-bottom-width: 3px;
+}
+
+.bottom-bar {
+    border-top-width: 3px;
+}
+
+.header-text {
+    font-size: 24px;
+    -unity-font-style: bold;
+    color: #0d0d0d;
+}
+
+.text-lives {
+    color: #d9376e;
+}
+
+.text-progress {
+    color: #ff8e3c;
+}
+
+.level-container-wrapper {
+    flex-grow: 1;
+    padding: 40px;
+}
+
+.level-container {
+    flex-grow: 1;
+    background-color: #fffffe;
+    border-radius: 16px;
+    border-width: 3px;
+    border-color: #0d0d0d;
+    overflow: hidden;
+}
+
+.footer-prompt {
+    color: #2a2a2a;
+    font-size: 22px;
+    -unity-font-style: bold;
+}
+
+.action-button {
+    background-color: #ff8e3c;
+    border-color: #0d0d0d;
+    border-width: 3px;
+    color: #0d0d0d;
+    font-size: 22px;
+    padding: 16px 36px;
+    border-radius: 16px;
+    -unity-font-style: bold;
+    cursor: link;
+    transition-duration: 0.15s;
+    transition-property: scale;
+}
+
+.action-button:hover {
+    scale: 1.05 1.05;
+}
+
+/* TOOLTIP */
 .tooltip-overlay {
     position: absolute;
-    bottom: 140px;
+    bottom: 120px;
     align-self: center;
-    background-color: rgba(15, 23, 42, 0.98);
-    padding: 24px 36px;
-    border-radius: 16px;
-    border-width: 2px;
-    border-color: rgb(56, 189, 248);
     width: 90%;
     max-width: 700px;
 }
 
+.tooltip-panel {
+    background-color: #fffffe;
+    padding: 30px 40px;
+    border-radius: 20px;
+    border-width: 4px;
+    border-color: #0d0d0d;
+    align-items: center;
+}
+
+.tooltip-title {
+    color: #ff8e3c;
+    font-size: 28px;
+    -unity-font-style: bold;
+    margin-bottom: 12px;
+}
+
 .tooltip-text {
-    color: rgb(241, 245, 249);
-    font-size: 24px;
+    color: #2a2a2a;
+    font-size: 22px;
     -unity-text-align: middle-center;
     white-space: normal;
 }

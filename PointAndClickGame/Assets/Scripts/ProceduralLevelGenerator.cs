@@ -1,18 +1,28 @@
 using UnityEngine;
 using UnityEngine.UIElements;
 using System.Collections.Generic;
+using System.Linq;
 
 public class ProceduralLevelGenerator : MonoBehaviour
 {
-    [Tooltip("UXML шаблон чистого сайта")]
-    public VisualTreeAsset cleanSiteTemplate;
+    [Tooltip("Модули хедеров")]
+    public List<VisualTreeAsset> headerModules = new List<VisualTreeAsset>();
+    
+    [Tooltip("Модули контента (тела)")]
+    public List<VisualTreeAsset> bodyModules = new List<VisualTreeAsset>();
+    
+    [Tooltip("Модули футеров")]
+    public List<VisualTreeAsset> footerModules = new List<VisualTreeAsset>();
 
-    [Tooltip("Список возможных уловок для внедрения")]
+    [Tooltip("Список возможных уловок")]
     public List<AnomalyDefinition> possibleAnomalies = new List<AnomalyDefinition>();
+
+    [Tooltip("UXML для инжекта таймера (подгружается из кода, если список пуст)")]
+    public VisualTreeAsset urgentTimerAsset;
 
     private void Awake()
     {
-        // For MVP, if anomalies list is empty, we populate it with defaults
+        // Populate default genius anomalies if empty
         if (possibleAnomalies.Count == 0)
         {
             possibleAnomalies.Add(new AnomalyDefinition {
@@ -24,93 +34,125 @@ public class ProceduralLevelGenerator : MonoBehaviour
             possibleAnomalies.Add(new AnomalyDefinition {
                 targetElementName = "lock-icon",
                 anomalyType = AnomalyType.ChangeText,
-                replacementText = "🔓", // fake open lock instead of closed
+                replacementText = "🔓",
                 tooltipMessage = "Замок открыт или выглядит подозрительно! У безопасного сайта он закрыт."
+            });
+            possibleAnomalies.Add(new AnomalyDefinition {
+                targetElementName = "social-logo",
+                anomalyType = AnomalyType.ChangeText,
+                replacementText = "ВKонтакте", // English K
+                tooltipMessage = "Опечатка в логотипе ВКонтакте! Мошенники часто меняют буквы на похожие из другого алфавита."
             });
             possibleAnomalies.Add(new AnomalyDefinition {
                 targetElementName = "bank-logo",
                 anomalyType = AnomalyType.ChangeText,
-                replacementText = "СБЕР БАHK Онлайн", // replacing Н with English H, barely noticeable
-                tooltipMessage = "Опечатка в логотипе! Мошенники часто меняют одну букву, надеясь на невнимательность."
+                replacementText = "СБЕР БAHK", // English H
+                tooltipMessage = "Опечатка в логотипе банка! Буква 'Н' заменена на английскую 'H'."
             });
             possibleAnomalies.Add(new AnomalyDefinition {
                 targetElementName = "cvv-container",
-                anomalyType = AnomalyType.RemoveClass, // Wait, we can use an anomaly to show the hidden field
-                cssClassModifier = "", 
-                tooltipMessage = "Ни один банк никогда не просит CVV-код при входе в личный кабинет! Это обман."
+                anomalyType = AnomalyType.RemoveClass, // Makes it visible if it was hidden by class, or we just handle it specially
+                tooltipMessage = "Ни один банк никогда не просит ПИН-код или CVV при входе! Это фишинг."
+            });
+            possibleAnomalies.Add(new AnomalyDefinition {
+                targetElementName = "copyright-text",
+                anomalyType = AnomalyType.ChangeText,
+                replacementText = "© 2018 Все права защищены.",
+                tooltipMessage = "Устаревший год в копирайте. Мошенники часто копируют старые версии сайтов и забывают обновлять футер."
+            });
+            possibleAnomalies.Add(new AnomalyDefinition {
+                targetElementName = "security-badge",
+                anomalyType = AnomalyType.ChangeText,
+                replacementText = "✅ Secured by MacAfee",
+                tooltipMessage = "Опечатка в названии известного антивируса (McAfee -> MacAfee). Фейковый бейдж."
+            });
+            possibleAnomalies.Add(new AnomalyDefinition {
+                targetElementName = "article-ad-container",
+                anomalyType = AnomalyType.InjectElement,
+                elementToInject = urgentTimerAsset, // We'll assume this gets assigned in SetupGameScene
+                tooltipMessage = "Внедрен фейковый таймер." // This won't be used directly since the injected UXML has its own tooltip
+            });
+            possibleAnomalies.Add(new AnomalyDefinition {
+                targetElementName = "download-button",
+                anomalyType = AnomalyType.HoverSpoof,
+                replacementText = "Скачать Вирус.exe",
+                tooltipMessage = "Кнопка меняет свое назначение или текст при наведении. Это попытка обмануть вас перед кликом."
             });
         }
     }
 
-    /// <summary>
-    /// Generates a level by instantiating the clean template and injecting traps.
-    /// Returns the number of traps injected.
-    /// </summary>
     public int GenerateLevel(VisualElement container, int currentLevel)
     {
         container.Clear();
-        
-        if (cleanSiteTemplate == null)
+
+        // 1. Pick random modules
+        if (headerModules.Count > 0)
         {
-            Debug.LogError("Clean Site Template is not assigned to ProceduralLevelGenerator!");
-            return 0;
+            var h = headerModules[Random.Range(0, headerModules.Count)].Instantiate();
+            container.Add(h);
+        }
+        if (bodyModules.Count > 0)
+        {
+            var b = bodyModules[Random.Range(0, bodyModules.Count)].Instantiate();
+            b.style.flexGrow = 1;
+            container.Add(b);
+        }
+        if (footerModules.Count > 0)
+        {
+            var f = footerModules[Random.Range(0, footerModules.Count)].Instantiate();
+            container.Add(f);
         }
 
-        // 1. Load clean template
-        var ui = cleanSiteTemplate.Instantiate();
-        ui.style.flexGrow = 1;
-        container.Add(ui);
-
-        // 2. Determine how many traps to inject based on level
-        // Randomly 0 to 3 traps
-        int trapsCount = Random.Range(0, 4); 
-        
-        // 3. Pick random traps
-        List<AnomalyDefinition> selectedTraps = new List<AnomalyDefinition>();
-        List<AnomalyDefinition> availableTraps = new List<AnomalyDefinition>(possibleAnomalies);
-        
-        for (int i = 0; i < trapsCount && availableTraps.Count > 0; i++)
+        // 2. Find all applicable anomalies (targets exist in the generated DOM)
+        List<AnomalyDefinition> applicableAnomalies = new List<AnomalyDefinition>();
+        foreach (var anomaly in possibleAnomalies)
         {
-            int index = Random.Range(0, availableTraps.Count);
-            selectedTraps.Add(availableTraps[index]);
-            availableTraps.RemoveAt(index);
+            VisualElement target = null;
+            if (!string.IsNullOrEmpty(anomaly.targetElementName))
+                target = container.Q<VisualElement>(anomaly.targetElementName);
+            else if (!string.IsNullOrEmpty(anomaly.targetElementClass))
+                target = container.Q<VisualElement>(className: anomaly.targetElementClass);
+
+            if (target != null)
+            {
+                applicableAnomalies.Add(anomaly);
+            }
         }
 
-        // 4. Apply traps to DOM
+        // 3. Determine how many traps to inject (0 to 10)
+        // Max traps bounded by how many applicable we found
+        int maxTraps = Mathf.Min(10, applicableAnomalies.Count);
+        int trapsCount = Random.Range(0, maxTraps + 1); 
+
+        // 4. Randomly pick trapsCount anomalies
+        var selectedTraps = applicableAnomalies.OrderBy(_ => Random.value).Take(trapsCount).ToList();
+
+        // 5. Apply traps
         int appliedTraps = 0;
         foreach (var trap in selectedTraps)
         {
             VisualElement targetElement = null;
-            
             if (!string.IsNullOrEmpty(trap.targetElementName))
-            {
-                targetElement = ui.Q<VisualElement>(trap.targetElementName);
-            }
+                targetElement = container.Q<VisualElement>(trap.targetElementName);
             else if (!string.IsNullOrEmpty(trap.targetElementClass))
-            {
-                targetElement = ui.Q<VisualElement>(className: trap.targetElementClass);
-            }
+                targetElement = container.Q<VisualElement>(className: trap.targetElementClass);
 
             if (targetElement != null)
             {
                 ApplyTrap(targetElement, trap);
                 appliedTraps++;
             }
-            else
-            {
-                Debug.LogWarning($"Could not find target for trap: {trap.targetElementName} / {trap.targetElementClass}");
-            }
         }
 
-        return appliedTraps;
+        return appliedTraps; // For injects, the actual count might differ if the injected block has multiple targets, but we'll recalculate in GameManager anyway.
     }
 
     private void ApplyTrap(VisualElement element, AnomalyDefinition trap)
     {
-        // Special case for CVV trap (we need to make it visible and mark the input as phishing-target)
+        // Special hardcoded case for CVV (unhiding it)
         if (trap.targetElementName == "cvv-container")
         {
-            element.style.display = DisplayStyle.Flex; // Show it
+            element.style.display = DisplayStyle.Flex;
             var inputField = element.Q<VisualElement>("cvv-trap");
             if (inputField != null)
             {
@@ -120,7 +162,17 @@ public class ProceduralLevelGenerator : MonoBehaviour
             return;
         }
 
-        // Standard traps
+        if (trap.anomalyType == AnomalyType.InjectElement)
+        {
+            if (trap.elementToInject != null)
+            {
+                var injected = trap.elementToInject.Instantiate();
+                element.Add(injected);
+            }
+            return; // We don't mark the container itself as a target
+        }
+
+        // Standard traps - mark them
         element.AddToClassList("phishing-target");
         element.tooltip = trap.tooltipMessage;
 
@@ -128,9 +180,7 @@ public class ProceduralLevelGenerator : MonoBehaviour
         {
             case AnomalyType.ChangeText:
                 if (element is Label label)
-                {
                     label.text = trap.replacementText;
-                }
                 break;
             case AnomalyType.HideElement:
                 element.style.display = DisplayStyle.None;
@@ -140,6 +190,20 @@ public class ProceduralLevelGenerator : MonoBehaviour
                 break;
             case AnomalyType.RemoveClass:
                 element.RemoveFromClassList(trap.cssClassModifier);
+                break;
+            case AnomalyType.HoverSpoof:
+                if (element is Label spoofLabel)
+                {
+                    string originalText = spoofLabel.text;
+                    element.RegisterCallback<MouseEnterEvent>(e => spoofLabel.text = trap.replacementText);
+                    element.RegisterCallback<MouseLeaveEvent>(e => spoofLabel.text = originalText);
+                }
+                else if (element is Button spoofBtn)
+                {
+                    string originalText = spoofBtn.text;
+                    element.RegisterCallback<MouseEnterEvent>(e => spoofBtn.text = trap.replacementText);
+                    element.RegisterCallback<MouseLeaveEvent>(e => spoofBtn.text = originalText);
+                }
                 break;
         }
     }

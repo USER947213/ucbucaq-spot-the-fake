@@ -1,0 +1,13 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements">
+    <ui:VisualElement style="background-color: rgb(241, 245, 249); padding: 30px; flex-direction: row; justify-content: space-between; align-items: center; border-top-width: 1px; border-top-color: rgb(203, 213, 225);">
+        <ui:VisualElement style="flex-direction: row;">
+            <ui:Label text="О компании" style="color: rgb(100, 116, 139); margin-right: 15px;" />
+            <ui:Label text="Поддержка" style="color: rgb(100, 116, 139); margin-right: 15px;" />
+            <ui:Label text="Политика конфиденциальности" style="color: rgb(100, 116, 139);" />
+        </ui:VisualElement>
+        <ui:Label name="copyright-text" text="© 2024 Все права защищены." style="color: rgb(148, 163, 184);" />
+        <ui:VisualElement name="security-badge-container" style="flex-direction: row; align-items: center;">
+            <ui:Label name="security-badge" text="✅ Secured by SSL" style="color: rgb(34, 197, 94); -unity-font-style: bold;" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

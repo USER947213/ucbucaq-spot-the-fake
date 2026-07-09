@@ -8,9 +8,9 @@ public class SetupGameScene : EditorWindow
     public static void SetupScene()
     {
         // Check if GameManager already exists
-        if (Object.FindObjectOfType<GameManager>() != null)
+        if (Object.FindFirstObjectByType<GameManager>() != null)
         {
-            Debug.LogWarning("GameManager уже существует на сцене!");
+            Debug.LogWarning("GameManager уже существует на сцене! Пожалуйста, удалите его перед повторной настройкой.");
             return;
         }
 
@@ -65,17 +65,33 @@ public class SetupGameScene : EditorWindow
             Debug.LogWarning("Не найден Assets/UI/TutorialLevel.uxml");
         }
 
-        // 5. Setup Generator
+        // 5. Setup Generator Modules
         ProceduralLevelGenerator generator = gmObj.AddComponent<ProceduralLevelGenerator>();
-        VisualTreeAsset cleanAsset = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>("Assets/UI/CleanBankLevel.uxml");
-        if (cleanAsset != null)
+        
+        if (AssetDatabase.IsValidFolder("Assets/UI/Modules"))
         {
-            generator.cleanSiteTemplate = cleanAsset;
+            string[] moduleGuids = AssetDatabase.FindAssets("t:VisualTreeAsset", new[] { "Assets/UI/Modules" });
+            foreach (var guid in moduleGuids)
+            {
+                string assetPath = AssetDatabase.GUIDToAssetPath(guid);
+                VisualTreeAsset asset = AssetDatabase.LoadAssetAtPath<VisualTreeAsset>(assetPath);
+                
+                if (asset.name.StartsWith("Header_"))
+                    generator.headerModules.Add(asset);
+                else if (asset.name.StartsWith("Body_"))
+                    generator.bodyModules.Add(asset);
+                else if (asset.name.StartsWith("Footer_"))
+                    generator.footerModules.Add(asset);
+                else if (asset.name == "Inject_UrgentTimer")
+                    generator.urgentTimerAsset = asset;
+            }
+            Debug.Log($"Загружено модулей: {generator.headerModules.Count} хедеров, {generator.bodyModules.Count} тел, {generator.footerModules.Count} футеров.");
         }
         else
         {
-            Debug.LogWarning("Не найден Assets/UI/CleanBankLevel.uxml");
+            Debug.LogWarning("Папка Assets/UI/Modules не найдена. Создайте её и добавьте UXML модули для генерации.");
         }
+
         gm.levelGenerator = generator;
         
         Debug.Log("✅ Сцена успешно настроена! Теперь вы можете нажать кнопку Play сверху.");

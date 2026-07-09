@@ -10,12 +10,15 @@ public class GameManager : MonoBehaviour
     public VisualTreeAsset tutorialLevelAsset; 
     public ProceduralLevelGenerator levelGenerator;
 
-    private int score = 0;
     private int lives = 3;
-    private int currentLevel = 0;
     
     // UI Elements
-    private Label scoreLabel;
+    private VisualElement startScreen;
+    private VisualElement mainMenuScreen;
+    private Button btnTutorial;
+    private Button btnTraining;
+
+    private VisualElement gameScreen;
     private Label livesLabel;
     private Label progressLabel;
     private Button safeButton;
@@ -25,26 +28,36 @@ public class GameManager : MonoBehaviour
     private Label tooltipText;
 
     private VisualElement gameOverScreen;
-    private Label finalScoreLabel;
     private Button restartButton;
 
     // Level state
     private int totalTrapsInLevel = 0;
     private int foundTrapsInLevel = 0;
     private bool isLevelOver = false;
+    private bool isTutorial = false;
+    
+    private readonly WaitForSeconds tooltipDelay = new WaitForSeconds(4.0f);
+    private readonly WaitForSeconds levelTransitionDelay = new WaitForSeconds(2.0f);
 
     void Start()
     {
         if (levelGenerator == null) levelGenerator = GetComponent<ProceduralLevelGenerator>();
         InitializeUI();
-        StartTutorialLevel();
+        ShowStartScreen();
     }
 
     private void InitializeUI()
     {
         var root = mainUIDocument.rootVisualElement;
 
-        scoreLabel = root.Q<Label>("score-label");
+        // Menu Elements
+        startScreen = root.Q<VisualElement>("start-screen");
+        mainMenuScreen = root.Q<VisualElement>("main-menu-screen");
+        btnTutorial = root.Q<Button>("btn-tutorial");
+        btnTraining = root.Q<Button>("btn-training");
+
+        // Game Elements
+        gameScreen = root.Q<VisualElement>("game-screen");
         livesLabel = root.Q<Label>("lives-label");
         progressLabel = root.Q<Label>("progress-label");
         safeButton = root.Q<Button>("safe-button");
@@ -54,28 +67,66 @@ public class GameManager : MonoBehaviour
         tooltipText = root.Q<Label>("tooltip-text");
 
         gameOverScreen = root.Q<VisualElement>("game-over-screen");
-        finalScoreLabel = root.Q<Label>("final-score-label");
         restartButton = root.Q<Button>("restart-button");
 
+        // Bindings
+        if (startScreen != null) startScreen.RegisterCallback<ClickEvent>(evt => ShowMainMenu());
+        btnTutorial.clicked += StartTutorialLevel;
+        btnTraining.clicked += StartProceduralGame;
         safeButton.clicked += OnSafeButtonClicked;
-        restartButton.clicked += RestartGame;
+        restartButton.clicked += ShowMainMenu;
+    }
 
-        UpdateScoreAndLives();
+    private void ShowStartScreen()
+    {
+        if (startScreen != null) startScreen.RemoveFromClassList("hidden");
+        mainMenuScreen.AddToClassList("hidden");
+        gameScreen.AddToClassList("hidden");
+        gameOverScreen.AddToClassList("hidden");
+        tooltipOverlay.AddToClassList("hidden");
+        isLevelOver = true;
+    }
+
+    private void ShowMainMenu()
+    {
+        if (startScreen != null) startScreen.AddToClassList("hidden");
+        mainMenuScreen.RemoveFromClassList("hidden");
+        gameScreen.AddToClassList("hidden");
+        gameOverScreen.AddToClassList("hidden");
+        tooltipOverlay.AddToClassList("hidden");
+        isLevelOver = true;
+    }
+
+    private void StartProceduralGame()
+    {
+        lives = 3;
+        isTutorial = false;
+        mainMenuScreen.AddToClassList("hidden");
+        gameOverScreen.AddToClassList("hidden");
+        gameScreen.RemoveFromClassList("hidden");
+        UpdateLivesUI();
+        
+        StartNextProceduralLevel();
     }
 
     private void StartTutorialLevel()
     {
-        currentLevel = 0;
+        lives = 3;
+        isTutorial = true;
         isLevelOver = false;
+        mainMenuScreen.AddToClassList("hidden");
+        gameOverScreen.AddToClassList("hidden");
+        gameScreen.RemoveFromClassList("hidden");
         levelContainer.Clear();
+        UpdateLivesUI();
         
         if (tutorialLevelAsset != null)
         {
             var tutorialUI = tutorialLevelAsset.Instantiate();
             tutorialUI.style.flexGrow = 1;
             levelContainer.Add(tutorialUI);
-            
             SetupTraps(tutorialUI);
+            UpdateProgressUI();
         }
         else
         {
@@ -85,18 +136,14 @@ public class GameManager : MonoBehaviour
 
     private void StartNextProceduralLevel()
     {
-        currentLevel++;
         isLevelOver = false;
         levelContainer.Clear();
         
         if (levelGenerator != null)
         {
-            totalTrapsInLevel = levelGenerator.GenerateLevel(levelContainer, currentLevel);
-            foundTrapsInLevel = 0;
-            UpdateProgress();
-            
-            // Re-setup traps after generation
+            levelGenerator.GenerateLevel(levelContainer, 0);
             SetupTraps(levelContainer);
+            UpdateProgressUI();
         }
         else
         {
@@ -106,54 +153,41 @@ public class GameManager : MonoBehaviour
 
     private void SetupTraps(VisualElement rootElement)
     {
-        // Find all elements marked as phishing targets
         var traps = rootElement.Query<VisualElement>(className: "phishing-target").ToList();
-        
-        // If it's tutorial, we use the counted traps, if it's procedural, we already set totalTrapsInLevel
-        if (currentLevel == 0) 
-        {
-            totalTrapsInLevel = traps.Count;
-        }
+        totalTrapsInLevel = traps.Count;
         foundTrapsInLevel = 0;
-        UpdateProgress();
 
         foreach (var trap in traps)
         {
-            // Add click event
             trap.RegisterCallback<ClickEvent>(evt => OnTrapClicked(evt, trap));
         }
 
         // Add a general click listener to the whole webpage for miss-clicks
-        var webpageContent = rootElement.Q<VisualElement>(className: "webpage-content");
-        if(webpageContent != null)
-        {
-            webpageContent.RegisterCallback<ClickEvent>(OnMissClick);
-        }
+        rootElement.RegisterCallback<ClickEvent>(OnMissClick);
     }
 
     private void OnTrapClicked(ClickEvent evt, VisualElement trap)
     {
         if (isLevelOver) return;
-        evt.StopPropagation(); // Prevent miss-click
+        evt.StopPropagation();
 
         if (trap.ClassListContains("phishing-found")) return;
 
         trap.AddToClassList("phishing-found");
+        trap.style.borderBottomWidth = 4;
+        trap.style.borderBottomColor = new StyleColor(new Color(0.2f, 0.8f, 0.2f)); // Green highlight
+
         foundTrapsInLevel++;
-        score += 100;
-        
-        UpdateScoreAndLives();
-        UpdateProgress();
+        UpdateProgressUI();
 
         string reason = trap.tooltip;
         if (string.IsNullOrEmpty(reason)) reason = "Фишинговый элемент найден!";
         
         ShowTooltip(reason);
 
-        if (foundTrapsInLevel >= totalTrapsInLevel)
-        {
-            LevelPassed();
-        }
+        // We DO NOT auto-pass the level here anymore!
+        // The user must click "Safe" to confirm they think there are no more traps.
+        // Exception: For tutorial, we might want to auto-pass or keep the same logic. Let's keep the same logic.
     }
 
     private void OnMissClick(ClickEvent evt)
@@ -161,10 +195,9 @@ public class GameManager : MonoBehaviour
         if (isLevelOver) return;
         
         var target = evt.target as VisualElement;
+        // Don't punish for clicking the safe button or other UI outside the level
         if (target != null && !target.ClassListContains("phishing-target"))
         {
-            // Visual feedback for miss
-            target.AddToClassList("miss-click");
             ShowTooltip("Промах! Это обычный элемент.");
             LoseLife();
         }
@@ -174,9 +207,8 @@ public class GameManager : MonoBehaviour
     {
         if (isLevelOver) return;
 
-        if (totalTrapsInLevel == 0)
+        if (foundTrapsInLevel == totalTrapsInLevel)
         {
-            score += 200; // Bonus for correctly identifying safe page
             LevelPassed();
         }
         else
@@ -189,7 +221,7 @@ public class GameManager : MonoBehaviour
     private void LoseLife()
     {
         lives--;
-        UpdateScoreAndLives();
+        UpdateLivesUI();
         if (lives <= 0)
         {
             GameOver();
@@ -199,60 +231,67 @@ public class GameManager : MonoBehaviour
     private void LevelPassed()
     {
         isLevelOver = true;
-        ShowTooltip("Уровень пройден! Загрузка следующего...");
-        StartCoroutine(LoadNextLevelAfterDelay(2.5f));
+        ShowTooltip("Отличная работа! Переходим к следующему сайту...");
+        
+        if (isTutorial)
+        {
+            StartCoroutine(ReturnToMenuAfterDelay());
+        }
+        else
+        {
+            StartCoroutine(LoadNextLevelAfterDelay());
+        }
     }
 
-    private IEnumerator LoadNextLevelAfterDelay(float delay)
+    private IEnumerator LoadNextLevelAfterDelay()
     {
-        yield return new WaitForSeconds(delay);
+        yield return levelTransitionDelay;
         StartNextProceduralLevel();
+    }
+
+    private IEnumerator ReturnToMenuAfterDelay()
+    {
+        yield return levelTransitionDelay;
+        ShowMainMenu();
     }
 
     private void GameOver()
     {
         isLevelOver = true;
         gameOverScreen.RemoveFromClassList("hidden");
-        finalScoreLabel.text = $"Итоговый счет: {score}";
     }
 
-    private void RestartGame()
+    private void UpdateLivesUI()
     {
-        score = 0;
-        lives = 3;
-        gameOverScreen.AddToClassList("hidden");
-        UpdateScoreAndLives();
-        StartTutorialLevel();
+        livesLabel.text = $"Жизни: {string.Concat(Enumerable.Repeat("❤️", lives))}";
     }
 
-    private void UpdateScoreAndLives()
+    private void UpdateProgressUI()
     {
-        scoreLabel.text = $"Очки: {score}";
-        
-        string livesStr = "";
-        for(int i = 0; i < lives; i++) livesStr += "❤️";
-        livesLabel.text = $"Жизни: {livesStr}";
-    }
-
-    private void UpdateProgress()
-    {
-        progressLabel.text = $"Найдено уловок: {foundTrapsInLevel} / {totalTrapsInLevel}";
+        progressLabel.text = $"Найдено уловок: {foundTrapsInLevel}";
     }
 
     private Coroutine tooltipCoroutine;
 
     private void ShowTooltip(string text)
     {
+        var title = tooltipOverlay.Q<Label>("tooltip-title");
+        if (title != null)
+        {
+            title.text = text.Contains("Промах") || text.Contains("еще есть уловки") ? "Внимание!" : "Фишинг найден!";
+            title.style.color = text.Contains("Промах") || text.Contains("еще есть уловки") ? new StyleColor(new Color(1f, 0.3f, 0.3f)) : new StyleColor(Color.white);
+        }
+
         tooltipText.text = text;
         tooltipOverlay.RemoveFromClassList("hidden");
         
         if (tooltipCoroutine != null) StopCoroutine(tooltipCoroutine);
-        tooltipCoroutine = StartCoroutine(HideTooltipAfterDelay(3.0f));
+        tooltipCoroutine = StartCoroutine(HideTooltipAfterDelay());
     }
 
-    private IEnumerator HideTooltipAfterDelay(float delay)
+    private IEnumerator HideTooltipAfterDelay()
     {
-        yield return new WaitForSeconds(delay);
+        yield return tooltipDelay;
         tooltipOverlay.AddToClassList("hidden");
     }
 }
