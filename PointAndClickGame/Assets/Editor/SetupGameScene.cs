@@ -48,9 +48,10 @@ public class SetupGameScene : EditorWindow
         }
         uiDoc.visualTreeAsset = mainUIAsset;
 
-        // 3. Create GameManager
+        // 3. Create GameManager and AudioManager
         GameObject gmObj = new GameObject("GameManager (Здесь логика)");
         GameManager gm = gmObj.AddComponent<GameManager>();
+        AudioManager am = gmObj.AddComponent<AudioManager>();
         
         // 4. Assign references
         gm.mainUIDocument = uiDoc;

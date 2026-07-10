@@ -1,0 +1,11 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+    <ui:VisualElement style="background-color: #1e2329; padding: 20px; align-items: center; justify-content: center; border-top-width: 1px; border-color: #2b3139;">
+        <ui:Label text="ПРЕДУПРЕЖДЕНИЕ О РИСКАХ: Торговля цифровыми активами связана с высоким уровнем риска." style="color: #848e9c; font-size: 14px; margin-bottom: 15px; -unity-text-align: middle-center; white-space: normal;" />
+        <ui:VisualElement style="flex-direction: row; justify-content: center;">
+            <ui:Label name="about-link" text="О нас" style="color: #fcd535; margin-right: 20px; font-size: 14px;" />
+            <ui:Label text="Правила" style="color: #fcd535; margin-right: 20px; font-size: 14px;" />
+            <ui:Label text="Поддержка" style="color: #fcd535; font-size: 14px;" />
+        </ui:VisualElement>
+        <ui:Label text="© 2024 Binance. Все права защищены." style="color: #5e6673; font-size: 12px; margin-top: 15px;" />
+    </ui:VisualElement>
+</ui:UXML>

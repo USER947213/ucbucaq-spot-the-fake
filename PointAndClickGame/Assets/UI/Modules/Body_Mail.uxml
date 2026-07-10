@@ -1,0 +1,21 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+    <ui:VisualElement style="flex-grow: 1; background-color: #f0f4f8; padding: 40px; align-items: center;">
+        <ui:VisualElement style="background-color: white; padding: 0; border-radius: 12px; width: 700px; overflow: hidden; border-width: 1px; border-color: #dee2e6;">
+            <ui:VisualElement style="background-color: #f8f9fa; padding: 20px; border-bottom-width: 1px; border-color: #dee2e6;">
+                <ui:Label text="От кого: security@mail-support-center.xyz" style="color: #495057; font-size: 16px; -unity-font-style: bold; margin-bottom: 5px;" />
+                <ui:Label text="Тема: ВАШ АККАУНТ БУДЕТ УДАЛЕН ЧЕРЕЗ 24 ЧАСА!" style="color: red; font-size: 20px; -unity-font-style: bold;" />
+            </ui:VisualElement>
+            
+            <ui:VisualElement style="padding: 40px;">
+                <ui:Label text="Здравствуйте!" style="color: #212529; font-size: 18px; margin-bottom: 20px;" />
+                <ui:Label text="Мы заметили подозрительную активность в вашем аккаунте. В целях безопасности ваш доступ будет приостановлен." style="color: #212529; font-size: 18px; margin-bottom: 20px; white-space: normal;" />
+                <ui:Label text="Пожалуйста, подтвердите свои данные по ссылке ниже:" style="color: #212529; font-size: 18px; margin-bottom: 30px; white-space: normal;" />
+                
+                <ui:Button name="link-btn" text="Подтвердить личность" style="background-color: #005ff9; color: white; padding: 15px 30px; font-size: 18px; -unity-font-style: bold; border-radius: 8px; border-width: 0; align-self: flex-start; margin-bottom: 30px;" />
+                
+                <ui:Label text="С уважением," style="color: #6c757d; font-size: 16px;" />
+                <ui:Label name="support-sign" text="Команда безопастности" style="color: #6c757d; font-size: 16px; -unity-font-style: bold;" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

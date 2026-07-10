@@ -1,0 +1,22 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+    <ui:VisualElement style="flex-grow: 1; background-color: #f8f9fa; padding: 40px; align-items: center;">
+        <ui:VisualElement style="background-color: white; padding: 40px; border-radius: 12px; width: 600px; border-width: 1px; border-color: #dee2e6;">
+            <ui:Label text="Оплата налоговой задолженности" style="color: #212529; font-size: 28px; -unity-font-style: bold; margin-bottom: 20px;" />
+            
+            <ui:Label text="Уважаемый гражданин," style="color: #495057; font-size: 18px; margin-bottom: 10px;" />
+            <ui:Label text="У вас обнаружена неоплаченная задолженность за 2024 год." style="color: #495057; font-size: 18px; margin-bottom: 30px;" />
+            
+            <ui:VisualElement style="background-color: #fff3cd; padding: 20px; border-radius: 8px; border-width: 1px; border-color: #ffe69c; margin-bottom: 30px;">
+                <ui:Label name="amount-label" text="Сумма к оплате: 4,500 руб." style="color: #664d03; font-size: 22px; -unity-font-style: bold;" />
+                <ui:Label text="Срок оплаты истекает сегодня." style="color: #d63384; font-size: 16px; margin-top: 5px; -unity-font-style: bold;" />
+            </ui:VisualElement>
+
+            <ui:VisualElement name="cvv-container" style="display: none; margin-bottom: 20px;">
+                <ui:Label text="Введите ПИН-код карты для подтверждения личности:" style="color: red; font-size: 16px; margin-bottom: 5px;" />
+                <ui:TextField name="cvv-trap" style="background-color: white; padding: 10px;" />
+            </ui:VisualElement>
+
+            <ui:Button name="pay-btn" text="Оплатить онлайн" style="background-color: #0d6efd; color: white; padding: 15px; font-size: 18px; -unity-font-style: bold; border-radius: 8px; border-width: 0;" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

@@ -33,6 +33,7 @@
         <ui:VisualElement name="game-screen" class="game-screen hidden">
             <!-- Top Bar -->
             <ui:VisualElement name="top-bar" class="top-bar">
+                <ui:Label name="timer-label" text="Время: 30" class="header-text text-timer" />
                 <ui:Label name="lives-label" text="Жизни: ❤️❤️❤️" class="header-text text-lives" />
                 <ui:Label name="progress-label" text="Найдено уловок: 0" class="header-text text-progress" />
             </ui:VisualElement>

@@ -1,0 +1,6 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+    <ui:VisualElement style="background-color: white; padding: 20px; align-items: center; justify-content: center; border-top-width: 1px; border-color: #e0e0e0;">
+        <ui:Label text="© 2024 Все права защищены." style="color: #999; font-size: 14px;" />
+        <ui:Label name="privacy-link" text="Privacy Policy | Terms of Service" style="color: #005bff; font-size: 12px; margin-top: 5px;" />
+    </ui:VisualElement>
+</ui:UXML>

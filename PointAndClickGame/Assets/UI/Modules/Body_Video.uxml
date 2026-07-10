@@ -1,0 +1,25 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+    <ui:VisualElement style="flex-grow: 1; background-color: #0f0f0f; padding: 40px; flex-direction: row; justify-content: center;">
+        <ui:VisualElement style="width: 800px;">
+            <ui:VisualElement style="background-color: black; height: 450px; border-radius: 12px; align-items: center; justify-content: center; margin-bottom: 20px;">
+                <ui:Label text="Как заработать 1,000,000$ за день!" style="color: white; font-size: 32px; -unity-font-style: bold;" />
+                <ui:Label text="▶" style="color: white; font-size: 80px; margin-top: 20px;" />
+            </ui:VisualElement>
+            
+            <ui:Label text="СЕКРЕТНАЯ СХЕМА ЗАРАБОТКА (БЕЗ ВЛОЖЕНИЙ)" style="color: white; font-size: 24px; -unity-font-style: bold; margin-bottom: 15px;" />
+            
+            <ui:VisualElement style="flex-direction: row; align-items: center; margin-bottom: 20px;">
+                <ui:VisualElement style="width: 50px; height: 50px; border-radius: 25px; background-color: #ff0000; justify-content: center; align-items: center; margin-right: 15px;">
+                    <ui:Label text="М" style="color: white; font-size: 24px; -unity-font-style: bold;" />
+                </ui:VisualElement>
+                <ui:Label name="channel-name" text="Mr. Оффициальный Канал" style="color: white; font-size: 18px; -unity-font-style: bold;" />
+                <ui:Label text="1.2M Подписчиков" style="color: #aaaaaa; font-size: 14px; margin-left: 10px;" />
+            </ui:VisualElement>
+            
+            <ui:VisualElement style="background-color: #272727; padding: 20px; border-radius: 12px;">
+                <ui:Label text="СКАЧАЙ ПРОГРАММУ ПО ССЫЛКЕ НИЖЕ И НАЧНИ ЗАРАБАТЫВАТЬ!" style="color: white; font-size: 16px; margin-bottom: 15px; white-space: normal;" />
+                <ui:Label name="download-link" text="http://bit.ly/secret-money-generator-exe" style="color: #3ea6ff; font-size: 16px; -unity-font-style: bold;" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

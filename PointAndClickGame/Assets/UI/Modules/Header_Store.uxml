@@ -1,0 +1,12 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+    <ui:VisualElement style="background-color: #005bff; padding: 20px; flex-direction: row; justify-content: space-between; align-items: center;">
+        <ui:VisualElement style="flex-direction: row; align-items: center;">
+            <ui:Label text="📦" style="font-size: 32px;" />
+            <ui:Label name="store-logo" text="O3ON" style="color: white; font-size: 28px; -unity-font-style: bold; margin-left: 10px;" />
+        </ui:VisualElement>
+        <ui:VisualElement style="flex-direction: row; background-color: white; padding: 8px 16px; border-radius: 20px; align-items: center;">
+            <ui:Label name="lock-icon" text="🔒" style="margin-right: 8px; color: #198754;" />
+            <ui:Label name="url-text" text="https://www.ozon.ru/" style="color: #212529;" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

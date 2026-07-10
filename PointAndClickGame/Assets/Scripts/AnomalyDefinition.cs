@@ -7,7 +7,10 @@ public enum AnomalyType
     AddClass,
     RemoveClass,
     InjectElement, // Вставляет новый UI-блок в указанный контейнер
-    HoverSpoof     // Добавляет текст/картинку, которая меняется при наведении
+    HoverSpoof,    // Добавляет текст/картинку, которая меняется при наведении
+    ClickjackingOverlay, // Добавляет невидимый перехватчик кликов
+    SpawnFakeChat,
+    SpawnSystemModal
 }
 
 [System.Serializable]

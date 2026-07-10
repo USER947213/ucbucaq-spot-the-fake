@@ -1,0 +1,12 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+    <ui:VisualElement style="background-color: #0f0f0f; padding: 20px; flex-direction: row; justify-content: space-between; align-items: center;">
+        <ui:VisualElement style="flex-direction: row; align-items: center;">
+            <ui:Label text="▶️" style="font-size: 32px; color: red;" />
+            <ui:Label name="video-logo" text="YouTube" style="color: white; font-size: 24px; -unity-font-style: bold; margin-left: 5px; letter-spacing: -1px;" />
+        </ui:VisualElement>
+        <ui:VisualElement style="flex-direction: row; background-color: #272727; padding: 8px 16px; border-radius: 20px; align-items: center;">
+            <ui:Label name="lock-icon" text="🔒" style="margin-right: 8px; color: white;" />
+            <ui:Label name="url-text" text="https://www.youtube.com/" style="color: white;" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

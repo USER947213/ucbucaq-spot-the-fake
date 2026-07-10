@@ -1,0 +1,21 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+    <ui:VisualElement style="flex-grow: 1; background-color: #0b0e11; padding: 40px; align-items: center; justify-content: center;">
+        <ui:VisualElement style="background-color: #1e2329; padding: 30px; border-radius: 12px; width: 400px; border-width: 1px; border-color: #2b3139;">
+            <ui:Label text="Обмен Крипты" style="color: white; font-size: 24px; -unity-font-style: bold; margin-bottom: 20px;" />
+            
+            <ui:Label text="Отдаете:" style="color: #848e9c; margin-bottom: 5px;" />
+            <ui:VisualElement style="flex-direction: row; justify-content: space-between; background-color: #2b3139; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
+                <ui:Label text="1.0" style="color: white; font-size: 20px;" />
+                <ui:Label name="coin-1" text="BTC" style="color: #fcd535; font-size: 20px; -unity-font-style: bold;" />
+            </ui:VisualElement>
+
+            <ui:Label text="Получаете:" style="color: #848e9c; margin-bottom: 5px;" />
+            <ui:VisualElement style="flex-direction: row; justify-content: space-between; background-color: #2b3139; padding: 15px; border-radius: 8px; margin-bottom: 30px;">
+                <ui:Label text="65,000" style="color: white; font-size: 20px;" />
+                <ui:Label name="coin-2" text="USDT" style="color: #02c076; font-size: 20px; -unity-font-style: bold;" />
+            </ui:VisualElement>
+
+            <ui:Button name="buy-btn" text="Подтвердить обмен" style="background-color: #fcd535; color: black; padding: 15px; font-size: 18px; -unity-font-style: bold; border-radius: 8px; border-width: 0;" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

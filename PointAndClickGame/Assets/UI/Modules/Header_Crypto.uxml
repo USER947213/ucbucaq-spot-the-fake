@@ -1,0 +1,14 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+    <ui:VisualElement style="background-color: #1e2329; padding: 20px; flex-direction: row; justify-content: space-between; align-items: center; border-bottom-width: 1px; border-color: #2b3139;">
+        <ui:VisualElement style="flex-direction: row; align-items: center;">
+            <ui:Label text="🔶" style="font-size: 32px;" />
+            <ui:Label name="crypto-logo" text="BINANCE" style="color: #fcd535; font-size: 28px; -unity-font-style: bold; margin-left: 10px;" />
+            <ui:Label text="Купить Крипту" style="color: white; margin-left: 20px; font-size: 16px;" />
+            <ui:Label text="Рынки" style="color: white; margin-left: 15px; font-size: 16px;" />
+        </ui:VisualElement>
+        <ui:VisualElement style="flex-direction: row; background-color: #2b3139; padding: 8px 16px; border-radius: 20px; align-items: center;">
+            <ui:Label name="lock-icon" text="🔒" style="margin-right: 8px; color: #02c076;" />
+            <ui:Label name="url-text" text="https://www.binance.com/" style="color: white;" />
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

@@ -21,8 +21,12 @@ public class GameManager : MonoBehaviour
     private VisualElement gameScreen;
     private Label livesLabel;
     private Label progressLabel;
+    private Label timerLabel;
     private Button safeButton;
     private VisualElement levelContainer;
+    
+    private float timeLeft = 30f;
+    private bool timerActive = false;
     
     private VisualElement tooltipOverlay;
     private Label tooltipText;
@@ -60,6 +64,7 @@ public class GameManager : MonoBehaviour
         gameScreen = root.Q<VisualElement>("game-screen");
         livesLabel = root.Q<Label>("lives-label");
         progressLabel = root.Q<Label>("progress-label");
+        timerLabel = root.Q<Label>("timer-label");
         safeButton = root.Q<Button>("safe-button");
         levelContainer = root.Q<VisualElement>("level-container");
         
@@ -114,11 +119,13 @@ public class GameManager : MonoBehaviour
         lives = 3;
         isTutorial = true;
         isLevelOver = false;
+        timerActive = false;
         mainMenuScreen.AddToClassList("hidden");
         gameOverScreen.AddToClassList("hidden");
         gameScreen.RemoveFromClassList("hidden");
         levelContainer.Clear();
         UpdateLivesUI();
+        if (timerLabel != null) timerLabel.text = "Время: ∞";
         
         if (tutorialLevelAsset != null)
         {
@@ -144,6 +151,9 @@ public class GameManager : MonoBehaviour
             levelGenerator.GenerateLevel(levelContainer, 0);
             SetupTraps(levelContainer);
             UpdateProgressUI();
+            
+            timeLeft = 30f;
+            timerActive = true;
         }
         else
         {
@@ -183,11 +193,8 @@ public class GameManager : MonoBehaviour
         string reason = trap.tooltip;
         if (string.IsNullOrEmpty(reason)) reason = "Фишинговый элемент найден!";
         
+        AudioManager.Instance?.PlaySuccess();
         ShowTooltip(reason);
-
-        // We DO NOT auto-pass the level here anymore!
-        // The user must click "Safe" to confirm they think there are no more traps.
-        // Exception: For tutorial, we might want to auto-pass or keep the same logic. Let's keep the same logic.
     }
 
     private void OnMissClick(ClickEvent evt)
@@ -198,6 +205,7 @@ public class GameManager : MonoBehaviour
         // Don't punish for clicking the safe button or other UI outside the level
         if (target != null && !target.ClassListContains("phishing-target"))
         {
+            AudioManager.Instance?.PlayError();
             ShowTooltip("Промах! Это обычный элемент.");
             LoseLife();
         }
@@ -207,12 +215,16 @@ public class GameManager : MonoBehaviour
     {
         if (isLevelOver) return;
 
+        AudioManager.Instance?.PlayClick();
+
         if (foundTrapsInLevel == totalTrapsInLevel)
         {
+            AudioManager.Instance?.PlaySuccess();
             LevelPassed();
         }
         else
         {
+            AudioManager.Instance?.PlayError();
             ShowTooltip("На странице еще есть уловки! Ищите внимательнее.");
             LoseLife();
         }
@@ -231,6 +243,7 @@ public class GameManager : MonoBehaviour
     private void LevelPassed()
     {
         isLevelOver = true;
+        timerActive = false;
         ShowTooltip("Отличная работа! Переходим к следующему сайту...");
         
         if (isTutorial)
@@ -258,7 +271,43 @@ public class GameManager : MonoBehaviour
     private void GameOver()
     {
         isLevelOver = true;
+        timerActive = false;
+        AudioManager.Instance?.PlayGameOver();
         gameOverScreen.RemoveFromClassList("hidden");
+    }
+    
+    private void Update()
+    {
+        if (timerActive && !isLevelOver && !isTutorial)
+        {
+            timeLeft -= Time.deltaTime;
+            if (timeLeft <= 0)
+            {
+                timeLeft = 0;
+                timerActive = false;
+                AudioManager.Instance?.PlayError();
+                ShowTooltip("Время вышло! Мошенники успели украсть данные.");
+                LoseLife();
+                if (lives > 0)
+                {
+                    isLevelOver = true;
+                    StartCoroutine(LoadNextLevelAfterDelay());
+                }
+            }
+            UpdateTimerUI();
+        }
+    }
+    
+    private void UpdateTimerUI()
+    {
+        if (timerLabel != null)
+        {
+            timerLabel.text = $"Время: {Mathf.CeilToInt(timeLeft)}";
+            if (timeLeft <= 5f)
+                timerLabel.style.color = new StyleColor(Color.red);
+            else
+                timerLabel.style.color = new StyleColor(Color.white);
+        }
     }
 
     private void UpdateLivesUI()
