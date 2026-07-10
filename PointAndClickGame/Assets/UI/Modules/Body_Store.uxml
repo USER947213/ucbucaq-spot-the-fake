@@ -1,20 +1,42 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
-    <ui:VisualElement style="flex-grow: 1; background-color: #f5f5f5; padding: 40px; flex-direction: row; justify-content: center;">
-        <ui:VisualElement style="background-color: white; padding: 30px; border-radius: 12px; width: 400px; margin-right: 30px;">
-            <ui:VisualElement style="background-color: #e0e0e0; height: 300px; border-radius: 8px; align-items: center; justify-content: center;">
-                <ui:Label text="📱" style="font-size: 100px;" />
+    <ui:VisualElement style="flex-grow: 1; padding: 40px 60px; flex-direction: row; justify-content: center; align-items: flex-start; flex-wrap: wrap;">
+        <!-- Left Side: Image Gallery -->
+        <ui:VisualElement class="card-premium" style="width: 450px; margin-right: 40px; margin-bottom: 20px;">
+            <ui:VisualElement style="background-color: #f8fafc; height: 350px; border-radius: 12px; align-items: center; justify-content: center; border-width: 1px; border-color: #e2e8f0; margin-bottom: 15px;">
+                <ui:Label text="📱" style="font-size: 140px;" />
+            </ui:VisualElement>
+            <ui:VisualElement style="flex-direction: row; justify-content: space-between;">
+                <ui:VisualElement style="background-color: #e2e8f0; height: 80px; width: 80px; border-radius: 8px; align-items: center; justify-content: center;"><ui:Label text="📱" style="font-size: 30px;" /></ui:VisualElement>
+                <ui:VisualElement style="background-color: #f1f5f9; height: 80px; width: 80px; border-radius: 8px; align-items: center; justify-content: center;"><ui:Label text="📱" style="font-size: 30px;" /></ui:VisualElement>
+                <ui:VisualElement style="background-color: #f1f5f9; height: 80px; width: 80px; border-radius: 8px; align-items: center; justify-content: center;"><ui:Label text="📱" style="font-size: 30px;" /></ui:VisualElement>
+                <ui:VisualElement style="background-color: #f1f5f9; height: 80px; width: 80px; border-radius: 8px; align-items: center; justify-content: center;"><ui:Label text="📱" style="font-size: 30px;" /></ui:VisualElement>
             </ui:VisualElement>
         </ui:VisualElement>
         
-        <ui:VisualElement style="background-color: white; padding: 30px; border-radius: 12px; width: 400px;">
-            <ui:Label name="product-title" text="Apple iPhone 15 Pro, 256 ГБ" style="color: #333; font-size: 28px; -unity-font-style: bold; margin-bottom: 10px; white-space: normal;" />
-            <ui:Label text="Продавец: Apple Store Оффициальный" style="color: #666; font-size: 16px; margin-bottom: 20px;" />
+        <!-- Right Side: Product Details -->
+        <ui:VisualElement class="card-premium" style="width: 500px; flex-shrink: 1;">
+            <ui:Label name="product-title" text="Apple iPhone 15 Pro, 256 ГБ, Натуральный титан" class="text-wrap" style="color: #0f172a; font-size: 32px; -unity-font-style: bold; margin-bottom: 15px; line-height: 40px;" />
             
-            <ui:Label name="price-label" text="15,990 ₽" style="color: #f91155; font-size: 36px; -unity-font-style: bold; margin-bottom: 5px;" />
-            <ui:Label text="Старая цена: 120,000 ₽" style="text-decoration: line-through; color: #999; font-size: 16px; margin-bottom: 30px;" />
+            <ui:VisualElement style="flex-direction: row; margin-bottom: 25px; align-items: center;">
+                <ui:Label text="⭐⭐⭐⭐⭐" style="font-size: 16px; margin-right: 10px;" />
+                <ui:Label text="4.9 • 1,204 отзыва" style="color: #005bff; font-size: 16px; -unity-font-style: bold;" />
+            </ui:VisualElement>
             
-            <ui:Button name="buy-btn" text="Добавить в корзину" style="background-color: #005bff; color: white; padding: 15px; font-size: 18px; -unity-font-style: bold; border-radius: 8px; border-width: 0; margin-bottom: 10px;" />
-            <ui:Button name="buy-click-btn" text="Купить в 1 клик" style="background-color: #f91155; color: white; padding: 15px; font-size: 18px; -unity-font-style: bold; border-radius: 8px; border-width: 0;" />
+            <ui:VisualElement style="background-color: #f8fafc; padding: 20px; border-radius: 12px; margin-bottom: 30px; border-width: 1px; border-color: #e2e8f0;">
+                <ui:Label name="price-label" text="15,990 ₽" style="color: #f91155; font-size: 42px; -unity-font-style: bold; margin-bottom: 5px;" />
+                <ui:VisualElement style="flex-direction: row; align-items: center;">
+                    <ui:Label text="120,000 ₽" style="text-decoration: line-through; color: #94a3b8; font-size: 18px; margin-right: 10px;" />
+                    <ui:Label text="-87%" style="background-color: #f91155; color: white; padding: 2px 6px; border-radius: 4px; font-size: 14px; -unity-font-style: bold;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            
+            <ui:Button name="buy-btn" text="Добавить в корзину" class="button-premium bg-blue" style="margin-bottom: 15px;" />
+            <ui:Button name="buy-click-btn" text="Купить в 1 клик" class="button-premium bg-red" />
+            
+            <ui:VisualElement style="margin-top: 30px; border-top-width: 1px; border-top-color: #e2e8f0; padding-top: 20px;">
+                <ui:Label text="Продавец: Apple Store Оффициальный" class="text-wrap" style="color: #64748b; font-size: 16px; -unity-font-style: bold;" />
+                <ui:Label text="Доставка завтра, бесплатно" style="color: #10b981; font-size: 16px; margin-top: 10px; -unity-font-style: bold;" />
+            </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

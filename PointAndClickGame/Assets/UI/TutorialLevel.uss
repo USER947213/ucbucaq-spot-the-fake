@@ -17,7 +17,6 @@
 .lock-icon {
     font-size: 24px;
     margin-right: 16px;
-    cursor: link;
     transition-duration: 0.2s;
     transition-property: scale;
 }
@@ -35,7 +34,6 @@
     border-radius: 20px;
     border-width: 1px;
     border-color: rgb(203, 213, 225);
-    cursor: link;
     transition-duration: 0.2s;
     transition-property: border-color;
 }
@@ -115,7 +113,6 @@
     padding: 16px;
     border-radius: 8px;
     margin-top: 20px;
-    cursor: link;
     border-width: 0;
     transition-duration: 0.2s;
     transition-property: background-color, scale;

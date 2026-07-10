@@ -1,21 +1,54 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
-    <ui:VisualElement style="flex-grow: 1; background-color: #0b0e11; padding: 40px; align-items: center; justify-content: center;">
-        <ui:VisualElement style="background-color: #1e2329; padding: 30px; border-radius: 12px; width: 400px; border-width: 1px; border-color: #2b3139;">
-            <ui:Label text="Обмен Крипты" style="color: white; font-size: 24px; -unity-font-style: bold; margin-bottom: 20px;" />
+    <ui:VisualElement style="flex-grow: 1; background-color: #0b0e11; padding: 50px 80px; flex-direction: row; justify-content: center; align-items: center; flex-wrap: wrap;">
+        
+        <!-- Left Side: Promo Text -->
+        <ui:VisualElement style="width: 500px; margin-right: 60px;">
+            <ui:Label text="Покупайте, торгуйте и храните более 600 криптовалют на Binance" class="text-wrap" style="color: white; font-size: 48px; -unity-font-style: bold; line-height: 55px; margin-bottom: 20px;" />
+            <ui:Label text="Крупнейшая криптовалютная биржа по объему торгов." class="text-wrap" style="color: #848e9c; font-size: 20px; margin-bottom: 40px;" />
             
-            <ui:Label text="Отдаете:" style="color: #848e9c; margin-bottom: 5px;" />
-            <ui:VisualElement style="flex-direction: row; justify-content: space-between; background-color: #2b3139; padding: 15px; border-radius: 8px; margin-bottom: 20px;">
-                <ui:Label text="1.0" style="color: white; font-size: 20px;" />
-                <ui:Label name="coin-1" text="BTC" style="color: #fcd535; font-size: 20px; -unity-font-style: bold;" />
+            <ui:VisualElement style="flex-direction: row; align-items: center; margin-bottom: 30px;">
+                <ui:Label text="🎁" style="font-size: 32px; margin-right: 15px;" />
+                <ui:Label text="Зарегистрируйтесь и получите бонус 100 USDT" class="text-wrap" style="color: #fcd535; font-size: 18px; -unity-font-style: bold;" />
             </ui:VisualElement>
-
-            <ui:Label text="Получаете:" style="color: #848e9c; margin-bottom: 5px;" />
-            <ui:VisualElement style="flex-direction: row; justify-content: space-between; background-color: #2b3139; padding: 15px; border-radius: 8px; margin-bottom: 30px;">
-                <ui:Label text="65,000" style="color: white; font-size: 20px;" />
-                <ui:Label name="coin-2" text="USDT" style="color: #02c076; font-size: 20px; -unity-font-style: bold;" />
-            </ui:VisualElement>
-
-            <ui:Button name="buy-btn" text="Подтвердить обмен" style="background-color: #fcd535; color: black; padding: 15px; font-size: 18px; -unity-font-style: bold; border-radius: 8px; border-width: 0;" />
+            
+            <ui:Button name="signup-btn" text="Зарегистрироваться по Email/Телефону" class="button-premium bg-yellow" style="margin-bottom: 15px; width: 350px;" />
+            <ui:Button name="google-btn" text="Продолжить с Google" class="button-premium bg-dark" style="width: 350px; border-width: 1px; border-color: #2b3139;" />
         </ui:VisualElement>
+        
+        <!-- Right Side: Market Widget -->
+        <ui:VisualElement class="card-premium" style="width: 450px; background-color: #181a20; border-width: 0; border-bottom-width: 0; padding: 30px;">
+            <ui:Label text="Популярные криптовалюты" style="color: #eaecef; font-size: 22px; -unity-font-style: bold; margin-bottom: 25px;" />
+            
+            <ui:VisualElement style="flex-direction: row; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom-width: 1px; border-bottom-color: #2b3139;">
+                <ui:VisualElement style="flex-direction: row; align-items: center;">
+                    <ui:Label text="₿" style="font-size: 24px; color: #f7931a; margin-right: 10px;" />
+                    <ui:VisualElement>
+                        <ui:Label text="BNB" style="color: #eaecef; font-size: 18px; -unity-font-style: bold;" />
+                        <ui:Label text="BNB" style="color: #848e9c; font-size: 14px;" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:VisualElement style="align-items: flex-end;">
+                    <ui:Label text="$315.20" style="color: #eaecef; font-size: 18px; -unity-font-style: bold;" />
+                    <ui:Label text="+1.24%" style="color: #0ecb81; font-size: 14px; -unity-font-style: bold;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            
+            <ui:VisualElement style="flex-direction: row; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 15px; border-bottom-width: 1px; border-bottom-color: #2b3139;">
+                <ui:VisualElement style="flex-direction: row; align-items: center;">
+                    <ui:Label text="₿" style="font-size: 24px; color: #f7931a; margin-right: 10px;" />
+                    <ui:VisualElement>
+                        <ui:Label text="BTC" style="color: #eaecef; font-size: 18px; -unity-font-style: bold;" />
+                        <ui:Label text="Bitcoin" style="color: #848e9c; font-size: 14px;" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+                <ui:VisualElement style="align-items: flex-end;">
+                    <ui:Label text="$64,302.10" style="color: #eaecef; font-size: 18px; -unity-font-style: bold;" />
+                    <ui:Label text="-0.45%" style="color: #f6465d; font-size: 14px; -unity-font-style: bold;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+
+            <ui:Button name="view-markets-btn" text="Больше рынков" class="button-premium bg-dark" style="margin-top: 10px;" />
+        </ui:VisualElement>
+        
     </ui:VisualElement>
 </ui:UXML>

@@ -80,9 +80,51 @@ public class GameManager : MonoBehaviour
         btnTraining.clicked += StartProceduralGame;
         safeButton.clicked += OnSafeButtonClicked;
         restartButton.clicked += ShowMainMenu;
+
+        ApplyDynamicGradients(root);
     }
 
-    private void ShowStartScreen()
+    private void ApplyDynamicGradients(VisualElement root)
+    {
+        if (root == null) return;
+
+        Texture2D primaryGrad = CreateGradientTexture(new Color(0.0f, 0.32f, 1.0f), new Color(0.0f, 0.79f, 1.0f));
+        foreach (var el in root.Query(className: "btn-primary-gradient").ToList())
+        {
+            el.style.backgroundImage = primaryGrad;
+        }
+
+        Texture2D actionGrad = CreateGradientTexture(new Color(0.0f, 0.69f, 0.45f), new Color(0.02f, 0.77f, 0.42f));
+        foreach (var el in root.Query(className: "action-button").ToList())
+        {
+            el.style.backgroundImage = actionGrad;
+        }
+
+        Texture2D indigoGlow = CreateGradientTexture(new Color(0.18f, 0.15f, 0.44f, 0.08f), new Color(0.18f, 0.15f, 0.44f, 0.0f));
+        foreach (var el in root.Query(className: "bg-glow-indigo").ToList())
+        {
+            el.style.backgroundImage = indigoGlow;
+        }
+
+        Texture2D cyanGlow = CreateGradientTexture(new Color(0.0f, 0.79f, 1.0f, 0.08f), new Color(0.0f, 0.79f, 1.0f, 0.0f));
+        foreach (var el in root.Query(className: "bg-glow-cyan").ToList())
+        {
+            el.style.backgroundImage = cyanGlow;
+        }
+    }
+
+    private Texture2D CreateGradientTexture(Color startColor, Color endColor)
+    {
+        Texture2D tex = new Texture2D(1, 32);
+        tex.wrapMode = TextureWrapMode.Clamp;
+        for (int y = 0; y < 32; y++)
+        {
+            float t = y / 31f;
+            tex.SetPixel(0, y, Color.Lerp(startColor, endColor, t));
+        }
+        tex.Apply();
+        return tex;
+    }    private void ShowStartScreen()
     {
         if (startScreen != null) startScreen.RemoveFromClassList("hidden");
         mainMenuScreen.AddToClassList("hidden");

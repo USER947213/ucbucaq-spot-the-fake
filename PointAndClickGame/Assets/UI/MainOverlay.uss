@@ -1,19 +1,32 @@
+/* 
+   Стилевое оформление "Светлая Кибер-Элегантность" (Версия 3.1 - VIP Cyber Dashboard)
+   Профессиональный дизайн уровня современных корпоративных систем кибербезопасности.
+   
+   ИСПРАВЛЕНИЕ ОШИБОК ШРИФТОВ, ГРАДИЕНТОВ И КУРСОРОВ:
+   - Векторный шрифт LiberationSans SDF назначен глобально для root-container.
+   - Свойства 'linear-gradient' заменены на сплошные цвета-заглушки (градиенты генерируются и накладываются через C# GameManager для исключения ошибок парсера USS).
+   - Удалены свойства 'cursor: link', так как в рантайме UI Toolkit курсоры поддерживаются только через ссылки на текстуры.
+*/
+
+/* Глобальные настройки контейнера */
 .root-container {
     flex-grow: 1;
-    /* Soft, modern light background */
-    background-color: #f3f4f6; 
+    background-color: #F5F7FA;
+    font-size: 18px;
+    color: #1A1F2C;
 }
 
-/* Глобальное правило для улучшения четкости любого текста */
+/* Глобальное улучшение читаемости текста */
 Label {
     -unity-font-style: bold;
+    white-space: normal;
 }
 
 .hidden {
     display: none;
 }
 
-/* --- MENU SCREEN --- */
+/* --- ФОНОВЫЕ СВЕЧЕНИЯ (AMBIENT LIGHTS) --- */
 .menu-screen {
     position: absolute;
     left: 0;
@@ -22,261 +35,437 @@ Label {
     bottom: 0;
     align-items: center;
     justify-content: center;
-    background-color: rgba(243, 244, 246, 0.9);
+    background-color: #F5F7FA;
+    overflow: hidden;
 }
 
-.menu-panel {
-    /* Glassmorphism panel */
-    background-color: rgba(255, 255, 255, 0.7);
-    border-radius: 24px;
-    padding: 60px 80px;
-    border-width: 1px;
-    border-color: rgba(255, 255, 255, 0.8);
-    align-items: center;
+.bg-glow {
+    position: absolute;
+    border-radius: 500px;
+    opacity: 0.08;
+}
+
+/* Мягкие цвета для свечения (С# заменит их на настоящие градиенты при старте) */
+.bg-glow-indigo {
     width: 700px;
+    height: 700px;
+    left: -100px;
+    top: -100px;
+    background-color: rgba(46, 38, 111, 0.05);
 }
 
-.start-panel {
-    width: 900px;
-    padding: 80px;
-    align-items: flex-start;
+.bg-glow-cyan {
+    width: 800px;
+    height: 800px;
+    right: -150px;
+    bottom: -150px;
+    background-color: rgba(0, 201, 255, 0.05);
 }
 
-.start-title {
-    color: #3b82f6; /* Modern Blue */
-    font-size: 48px;
+/* --- ВЕРХНЯЯ ПАНЕЛЬ СИСТЕМЫ (DASHBOARD HEADER) --- */
+.dashboard-header {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 72px;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 40px;
+    background-color: rgba(255, 255, 255, 0.65);
+    border-bottom-width: 1px;
+    border-bottom-color: rgba(26, 31, 44, 0.06);
+}
+
+.header-logo-container {
+    flex-direction: row;
+    align-items: center;
+}
+
+.header-logo-icon {
+    font-size: 20px;
+    margin-right: 10px;
+}
+
+.header-logo-text {
+    font-size: 14px;
     -unity-font-style: bold;
-    white-space: normal;
-    margin-bottom: 30px;
+    color: #1A1F2C;
     letter-spacing: 2px;
 }
 
-.start-subtitle {
-    color: #4b5563; /* Sleek Grey */
-    font-size: 26px;
-    white-space: normal;
-    margin-bottom: 60px;
-}
-
-.start-hint-box {
-    background-color: rgba(59, 130, 246, 0.1);
-    padding: 24px 48px;
-    border-radius: 16px;
+.header-status-badge {
+    padding: 6px 14px;
+    border-radius: 8px;
     border-width: 1px;
-    border-color: rgba(59, 130, 246, 0.3);
-    align-self: center;
-    margin-top: 20px;
-    transition-duration: 0.2s;
-    transition-property: scale, background-color;
 }
 
-.start-hint-box:hover {
-    scale: 1.02 1.02;
-    background-color: rgba(59, 130, 246, 0.2);
+.badge-warning {
+    background-color: rgba(255, 149, 0, 0.06);
+    border-color: rgba(255, 149, 0, 0.15);
+    color: #E08200;
 }
 
-.start-hint-text {
-    color: #1e40af;
-    font-size: 22px;
-    -unity-font-style: bold;
-    letter-spacing: 2px;
+.badge-active {
+    background-color: rgba(52, 199, 89, 0.06);
+    border-color: rgba(52, 199, 89, 0.15);
+    color: #248A3D;
 }
 
-.border-red {
-    border-color: rgba(239, 68, 68, 0.5);
-    background-color: rgba(254, 226, 226, 0.8);
-}
-
-.game-title {
-    color: #1f2937;
-    font-size: 56px;
-    -unity-font-style: bold;
-    letter-spacing: 4px;
-    margin-bottom: 10px;
-    -unity-text-align: middle-center;
-}
-
-.game-subtitle {
-    color: #6b7280;
-    font-size: 20px;
-    margin-bottom: 50px;
-    -unity-text-align: middle-center;
-}
-
-.footer-hint {
-    color: #9ca3af;
-    font-size: 20px;
-    margin-top: 40px;
+.header-status-text {
+    font-size: 11px;
     -unity-font-style: bold;
     letter-spacing: 1px;
 }
 
-.menu-buttons-container {
+/* --- ЦЕНТРИРУЮЩАЯ ОБЕРТКА КАРТОЧКИ --- */
+.card-center-wrapper {
+    flex-grow: 1;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+/* --- ПРЕМИНУМ КАРТОЧКА (NESTED DESIGN SYSTEM) --- */
+.menu-panel {
+    background-color: #FFFFFF;
+    border-radius: 28px;
+    padding: 40px;
+    border-width: 1px;
+    border-color: rgba(26, 31, 44, 0.05);
+    /* Верхний декоративный бортик */
+    border-top-width: 5px;
+    border-top-color: #2E266F;
+    border-bottom-width: 3px;
+    border-bottom-color: rgba(26, 31, 44, 0.06);
+    align-items: center;
+    width: 540px;
+}
+
+.warning-panel {
+    border-top-color: #FF3B30;
+}
+
+.menu-main-panel {
+    border-top-color: #2E266F;
+}
+
+/* Вложенный блок данных (Inset Box) */
+.inset-box {
+    background-color: #FAFBFD;
+    border-width: 1px;
+    border-color: rgba(26, 31, 44, 0.04);
+    border-radius: 18px;
+    padding: 24px;
+    width: 100%;
+    margin-bottom: 30px;
+}
+
+.alert-inset {
+    background-color: rgba(255, 59, 48, 0.015);
+    border-color: rgba(255, 59, 48, 0.08);
+}
+
+.alert-header {
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 12px;
+}
+
+.alert-icon {
+    font-size: 18px;
+    margin-right: 8px;
+}
+
+.alert-tag {
+    font-size: 11px;
+    -unity-font-style: bold;
+    color: #FF3B30;
+    letter-spacing: 1.5px;
+}
+
+.description-inset {
+    background-color: rgba(46, 38, 111, 0.01);
+    border-color: rgba(46, 38, 111, 0.04);
+}
+
+/* --- ТИПОГРАФИКА --- */
+.card-tag-label {
+    font-size: 10px;
+    -unity-font-style: bold;
+    color: #8E9AAB;
+    letter-spacing: 3px;
+    margin-bottom: 6px;
+}
+
+.warning-title {
+    color: #1A1F2C;
+    font-size: 26px;
+    -unity-font-style: bold;
+    margin-bottom: 24px;
+    -unity-text-align: middle-center;
+    letter-spacing: 0.5px;
+}
+
+.warning-description {
+    color: #5E6E85;
+    font-size: 16px;
+    line-height: 1.6;
+    -unity-text-align: middle-center;
+}
+
+.main-title {
+    color: #1A1F2C;
+    font-size: 38px;
+    -unity-font-style: bold;
+    margin-bottom: 6px;
+    -unity-text-align: middle-center;
+    letter-spacing: -0.5px;
+}
+
+.main-subtitle {
+    color: #007AFF;
+    font-size: 12px;
+    -unity-font-style: bold;
+    letter-spacing: 4px;
+    margin-bottom: 28px;
+    -unity-text-align: middle-center;
+}
+
+.menu-desc-text {
+    color: #5E6E85;
+    font-size: 16px;
+    line-height: 1.5;
+    -unity-text-align: middle-center;
+}
+
+/* --- КНОПКИ (ТЕХНОЛОГИЧНЫЕ ПРЯМОУГОЛЬНЫЕ) --- */
+.pill-button {
+    font-size: 16px;
+    padding: 16px 24px;
+    border-radius: 12px;
+    -unity-font-style: bold;
+    border-width: 0px;
+    -unity-text-align: middle-center;
+    letter-spacing: 1.5px;
+    transition-duration: 0.2s;
+    transition-property: opacity, background-color, border-color, color;
+}
+
+.menu-buttons-vertical-container {
     width: 100%;
     flex-direction: column;
 }
 
-.menu-button {
-    font-size: 24px;
-    padding: 20px;
-    border-radius: 16px;
-    -unity-font-style: bold;
-    margin-bottom: 20px;
-    border-width: 0px;
-    transition-duration: 0.2s;
-    transition-property: scale, opacity;
-    cursor: link;
+.button-spacing {
+    margin-bottom: 12px;
 }
 
-.btn-primary {
-    background-color: #3b82f6;
+.button-full-width {
+    width: 100%;
+}
+
+/* Градиентная кнопка (Fallback: Solid Blue. С# заменит на градиент) */
+.btn-primary-gradient {
+    background-color: #0052FF;
     color: white;
 }
 
-.btn-primary:hover {
-    scale: 1.03 1.03;
+.btn-primary-gradient:hover {
     opacity: 0.9;
 }
 
-.btn-secondary {
-    background-color: rgba(255, 255, 255, 0.8);
-    color: #3b82f6;
-    border-width: 2px;
-    border-color: #3b82f6;
+.btn-primary-gradient:active {
+    opacity: 0.8;
 }
 
-.btn-secondary:hover {
-    scale: 1.03 1.03;
-    background-color: rgba(255, 255, 255, 1);
+/* Вторичная кнопка (Ghost Outline) */
+.btn-ghost-gradient {
+    background-color: transparent;
+    color: #0052FF;
+    border-width: 1.5px;
+    border-color: rgba(0, 82, 255, 0.25);
 }
 
-/* GAME OVER */
-.game-over-title {
-    color: #ef4444;
-    font-size: 56px;
+.btn-ghost-gradient:hover {
+    background-color: rgba(0, 82, 255, 0.04);
+    border-color: #0052FF;
+}
+
+.btn-ghost-gradient:active {
+    background-color: rgba(0, 82, 255, 0.08);
+}
+
+/* --- НИЖНЯЯ ПАНЕЛЬ СИСТЕМЫ (DASHBOARD FOOTER) --- */
+.dashboard-footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 50px;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.4);
+    border-top-width: 1px;
+    border-top-color: rgba(26, 31, 44, 0.05);
+}
+
+.footer-text {
+    color: #8E9AAB;
+    font-size: 10px;
+    letter-spacing: 2px;
     -unity-font-style: bold;
-    letter-spacing: 4px;
-    margin-bottom: 15px;
-    -unity-text-align: middle-center;
 }
 
-/* GAME SCREEN */
+/* --- ИГРОВОЙ ЭКРАН (ЕДИНЫЙ СТИЛЬ С ДАШБОРДОМ) --- */
 .game-screen {
     flex-grow: 1;
     justify-content: space-between;
-}
-
-.top-bar, .bottom-bar {
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: center;
-    padding: 15px 40px;
-    background-color: rgba(255, 255, 255, 0.85);
-    border-color: rgba(229, 231, 235, 1);
+    background-color: #F4F6F9;
 }
 
 .top-bar {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 40px;
+    background-color: #FFFFFF;
     border-bottom-width: 1px;
-}
-
-.bottom-bar {
-    border-top-width: 1px;
+    border-bottom-color: rgba(26, 31, 44, 0.05);
+    border-bottom-left-radius: 16px;
+    border-bottom-right-radius: 16px;
 }
 
 .header-text {
-    font-size: 22px;
+    font-size: 13.5px;
     -unity-font-style: bold;
-    color: #1f2937;
+    padding: 6px 14px;
+    border-radius: 8px;
 }
 
 .text-lives {
-    color: #ef4444;
+    color: #FF3B30;
+    background-color: rgba(255, 59, 48, 0.05);
 }
 
 .text-progress {
-    color: #3b82f6;
+    color: #0052FF;
+    background-color: rgba(0, 82, 255, 0.05);
 }
 
 .text-timer {
-    color: #10b981;
+    color: #00A887;
+    background-color: rgba(0, 168, 135, 0.05);
 }
 
 .level-container-wrapper {
     flex-grow: 1;
-    padding: 20px 60px;
+    padding: 20px 40px;
 }
 
 .level-container {
     flex-grow: 1;
-    background-color: #ffffff;
-    border-radius: 12px;
+    background-color: #FFFFFF;
+    border-radius: 20px;
     border-width: 1px;
-    border-color: rgba(229, 231, 235, 1);
+    border-color: rgba(26, 31, 44, 0.05);
     overflow: hidden;
+    border-bottom-width: 2px;
+    border-bottom-color: rgba(26, 31, 44, 0.06);
+}
+
+.bottom-bar {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 40px;
+    background-color: #FFFFFF;
+    border-top-width: 1px;
+    border-top-color: rgba(26, 31, 44, 0.05);
+    border-top-left-radius: 16px;
+    border-top-right-radius: 16px;
 }
 
 .footer-prompt {
-    color: #4b5563;
-    font-size: 20px;
+    color: #5E6E85;
+    font-size: 14.5px;
     -unity-font-style: bold;
 }
 
+/* Fallback: Solid Green. С# заменит на градиент при старте */
 .action-button {
-    background-color: #10b981; /* Emerald Green */
+    background-color: #00B074;
     border-width: 0;
     color: white;
-    font-size: 20px;
-    padding: 14px 32px;
-    border-radius: 12px;
+    font-size: 16px;
+    padding: 14px 28px;
+    border-radius: 10px;
     -unity-font-style: bold;
-    cursor: link;
     transition-duration: 0.2s;
-    transition-property: scale, background-color;
+    transition-property: opacity;
 }
 
 .action-button:hover {
-    scale: 1.03 1.03;
-    background-color: #059669;
+    opacity: 0.9;
 }
 
-/* TOOLTIP */
+.action-button:active {
+    opacity: 0.8;
+}
+
+/* --- ЭКРАН ИГРА ОКОНЧЕНА --- */
+.game-over-title {
+    color: #FF3B30;
+    font-size: 38px;
+    -unity-font-style: bold;
+    margin-bottom: 12px;
+    -unity-text-align: middle-center;
+}
+
+.border-red {
+    border-top-color: #FF3B30;
+}
+
+/* --- ВСПЛЫВАЮЩИЕ ПОДСКАЗКИ (TOOLTIP) --- */
 .tooltip-overlay {
     position: absolute;
-    bottom: 120px;
+    bottom: 90px;
     align-self: center;
     width: 90%;
-    max-width: 700px;
+    max-width: 500px;
 }
 
 .tooltip-panel {
-    background-color: rgba(255, 255, 255, 0.95);
-    padding: 25px 40px;
-    border-radius: 16px;
+    background-color: #FFFFFF;
+    padding: 14px 24px;
+    border-radius: 12px;
     border-width: 1px;
-    border-color: rgba(229, 231, 235, 1);
+    border-color: rgba(26, 31, 44, 0.06);
+    border-bottom-width: 2px;
+    border-bottom-color: rgba(26, 31, 44, 0.08);
     align-items: center;
 }
 
 .tooltip-title {
-    color: #3b82f6;
-    font-size: 26px;
+    color: #0052FF;
+    font-size: 16.5px;
     -unity-font-style: bold;
-    margin-bottom: 10px;
+    margin-bottom: 4px;
 }
 
 .tooltip-text {
-    color: #374151;
-    font-size: 20px;
+    color: #5E6E85;
+    font-size: 16px;
     -unity-text-align: middle-center;
-    white-space: normal;
 }
 
-/* Class for found phishing elements (applied in code) */
+/* Подсветка найденных фишинговых элементов */
 .phishing-found {
     border-bottom-width: 3px !important;
-    border-color: #10b981 !important;
-    background-color: rgba(16, 185, 129, 0.1) !important;
+    border-color: #05C46B !important;
+    background-color: rgba(5, 196, 107, 0.05) !important;
     border-radius: 4px;
-    transition-duration: 0.3s;
-    transition-property: background-color;
+    transition-duration: 0.2s;
+    transition-property: background-color, border-color;
 }

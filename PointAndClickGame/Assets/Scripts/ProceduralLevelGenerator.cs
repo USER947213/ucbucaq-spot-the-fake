@@ -40,18 +40,18 @@ public class ProceduralLevelGenerator : MonoBehaviour
             possibleAnomalies.Add(new AnomalyDefinition {
                 targetElementName = "social-logo",
                 anomalyType = AnomalyType.ChangeText,
-                replacementText = "ВKонтакте", // English K
+                replacementText = "ВKонтакте",
                 tooltipMessage = "Опечатка в логотипе ВКонтакте! Мошенники часто меняют буквы на похожие из другого алфавита."
             });
             possibleAnomalies.Add(new AnomalyDefinition {
                 targetElementName = "bank-logo",
                 anomalyType = AnomalyType.ChangeText,
-                replacementText = "СБЕР БAHK", // English H
+                replacementText = "СБЕР БAHK",
                 tooltipMessage = "Опечатка в логотипе банка! Буква 'Н' заменена на английскую 'H'."
             });
             possibleAnomalies.Add(new AnomalyDefinition {
                 targetElementName = "cvv-container",
-                anomalyType = AnomalyType.RemoveClass, // Makes it visible if it was hidden by class, or we just handle it specially
+                anomalyType = AnomalyType.RemoveClass,
                 tooltipMessage = "Ни один банк никогда не просит ПИН-код или CVV при входе! Это фишинг."
             });
             possibleAnomalies.Add(new AnomalyDefinition {
@@ -69,8 +69,8 @@ public class ProceduralLevelGenerator : MonoBehaviour
             possibleAnomalies.Add(new AnomalyDefinition {
                 targetElementName = "article-ad-container",
                 anomalyType = AnomalyType.InjectElement,
-                elementToInject = urgentTimerAsset, // We'll assume this gets assigned in SetupGameScene
-                tooltipMessage = "Внедрен фейковый таймер." // This won't be used directly since the injected UXML has its own tooltip
+                elementToInject = urgentTimerAsset,
+                tooltipMessage = "Внедрен фейковый таймер."
             });
             possibleAnomalies.Add(new AnomalyDefinition {
                 targetElementName = "download-button",
@@ -232,101 +232,9 @@ public class ProceduralLevelGenerator : MonoBehaviour
                 }
                 break;
             case AnomalyType.ClickjackingOverlay:
-                var overlay = new VisualElement();
-                overlay.style.position = Position.Absolute;
-                overlay.style.left = 0;
-                overlay.style.top = 0;
-                overlay.style.right = 0;
-                overlay.style.bottom = 0;
-                overlay.style.backgroundColor = new StyleColor(new Color(0, 0, 0, 0.01f)); // Almost invisible
-                overlay.AddToClassList("phishing-target");
-                overlay.tooltip = trap.tooltipMessage;
-                element.Add(overlay);
-                break;
             case AnomalyType.SpawnFakeChat:
-                var chat = new VisualElement();
-                chat.style.position = Position.Absolute;
-                chat.style.bottom = 20;
-                chat.style.right = 20;
-                chat.style.width = 250;
-                chat.style.backgroundColor = Color.white;
-                chat.style.borderTopLeftRadius = 12;
-                chat.style.borderTopRightRadius = 12;
-                chat.style.borderTopWidth = 2;
-                chat.style.borderBottomWidth = 2;
-                chat.style.borderLeftWidth = 2;
-                chat.style.borderRightWidth = 2;
-                chat.style.borderTopColor = new StyleColor(Color.black);
-                chat.style.borderBottomColor = new StyleColor(Color.black);
-                chat.style.borderLeftColor = new StyleColor(Color.black);
-                chat.style.borderRightColor = new StyleColor(Color.black);
-                
-                var chatTitle = new Label("Поддержка 24/7");
-                chatTitle.style.backgroundColor = new StyleColor(Color.blue);
-                chatTitle.style.color = Color.white;
-                chatTitle.style.paddingBottom = 10;
-                chatTitle.style.paddingTop = 10;
-                chatTitle.style.unityTextAlign = TextAnchor.MiddleCenter;
-                chat.Add(chatTitle);
-
-                var chatMsg = new Label("Ваша карта заблокирована. Введите CVV для разблокировки:");
-                chatMsg.style.whiteSpace = WhiteSpace.Normal;
-                chatMsg.style.paddingTop = 10;
-                chatMsg.style.paddingBottom = 10;
-                chatMsg.style.paddingLeft = 5;
-                chatMsg.style.paddingRight = 5;
-                chatMsg.style.color = Color.black;
-                chat.Add(chatMsg);
-
-                var chatInput = new TextField();
-                chatInput.style.marginBottom = 10;
-                chat.Add(chatInput);
-
-                chat.AddToClassList("phishing-target");
-                chat.tooltip = trap.tooltipMessage;
-                element.Add(chat);
-                break;
             case AnomalyType.SpawnSystemModal:
-                var modal = new VisualElement();
-                modal.style.position = Position.Absolute;
-                modal.style.top = 50;
-                modal.style.left = 150;
-                modal.style.width = 400;
-                modal.style.backgroundColor = new StyleColor(new Color(0.9f, 0.9f, 0.9f, 1f));
-                modal.style.borderTopWidth = 1;
-                modal.style.borderBottomWidth = 1;
-                modal.style.borderLeftWidth = 1;
-                modal.style.borderRightWidth = 1;
-                modal.style.borderTopColor = Color.gray;
-                modal.style.borderBottomColor = Color.gray;
-                modal.style.borderLeftColor = Color.gray;
-                modal.style.borderRightColor = Color.gray;
-                
-                var modalTitle = new Label("Windows Security Alert");
-                modalTitle.style.backgroundColor = Color.red;
-                modalTitle.style.color = Color.white;
-                modalTitle.style.paddingBottom = 5;
-                modalTitle.style.paddingTop = 5;
-                modalTitle.style.unityTextAlign = TextAnchor.MiddleCenter;
-                modal.Add(modalTitle);
-
-                var modalMsg = new Label("ОБНАРУЖЕН ВИРУС! Нажмите ОК, чтобы очистить ПК.");
-                modalMsg.style.whiteSpace = WhiteSpace.Normal;
-                modalMsg.style.paddingTop = 20;
-                modalMsg.style.paddingBottom = 20;
-                modalMsg.style.paddingLeft = 10;
-                modalMsg.style.color = Color.black;
-                modal.Add(modalMsg);
-
-                var btn = new Button { text = "OK" };
-                btn.style.width = 100;
-                btn.style.alignSelf = Align.Center;
-                btn.style.marginBottom = 10;
-                modal.Add(btn);
-
-                modal.AddToClassList("phishing-target");
-                modal.tooltip = trap.tooltipMessage;
-                element.Add(modal);
+                Debug.LogWarning($"AnomalyType {trap.anomalyType} is deprecated in code. Use AnomalyType.InjectElement or AddClass instead.");
                 break;
         }
     }

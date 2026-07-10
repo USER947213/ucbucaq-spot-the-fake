@@ -18,6 +18,36 @@ public class SetupGameScene : EditorWindow
         GameObject uiObj = new GameObject("Game UI (Сюда выводится интерфейс)");
         UIDocument uiDoc = uiObj.AddComponent<UIDocument>();
 
+        // Автоматически импортируем ресурсы TextMeshPro через рефлексию для векторной четкости шрифтов
+        if (!AssetDatabase.IsValidFolder("Assets/TextMesh Pro"))
+        {
+            Debug.Log("Попытка импорта ресурсов TextMeshPro для векторной четкости шрифтов...");
+            try
+            {
+                // Бесшумный импорт ресурсов TMP (без всплывающих окон)
+                string tmpPackagePath = "Packages/com.unity.ugui/Package Resources/TMP Essential Resources.unitypackage";
+                if (System.IO.File.Exists(System.IO.Path.GetFullPath(tmpPackagePath)))
+                {
+                    AssetDatabase.ImportPackage(tmpPackagePath, false);
+                    Debug.Log("TMP Essential Resources silently imported.");
+                }
+                else
+                {
+                    // Для старых версий Unity (до интеграции TMP в ugui)
+                    string legacyTmpPath = "Packages/com.unity.textmeshpro/Package Resources/TMP Essential Resources.unitypackage";
+                    if (System.IO.File.Exists(System.IO.Path.GetFullPath(legacyTmpPath)))
+                    {
+                        AssetDatabase.ImportPackage(legacyTmpPath, false);
+                        Debug.Log("Legacy TMP Essential Resources silently imported.");
+                    }
+                }
+            }
+            catch (System.Exception ex)
+            {
+                Debug.LogWarning("Не удалось автоматически импортировать ресурсы TextMeshPro: " + ex.Message);
+            }
+        }
+
         // Назначаем PanelSettings, чтобы интерфейс рендерился
         string[] panelGuids = AssetDatabase.FindAssets("t:PanelSettings");
         PanelSettings panelSettings = null;

@@ -1,25 +1,73 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
-    <ui:VisualElement style="flex-grow: 1; background-color: #0f0f0f; padding: 40px; flex-direction: row; justify-content: center;">
-        <ui:VisualElement style="width: 800px;">
-            <ui:VisualElement style="background-color: black; height: 450px; border-radius: 12px; align-items: center; justify-content: center; margin-bottom: 20px;">
-                <ui:Label text="Как заработать 1,000,000$ за день!" style="color: white; font-size: 32px; -unity-font-style: bold;" />
-                <ui:Label text="▶" style="color: white; font-size: 80px; margin-top: 20px;" />
+    <ui:VisualElement style="flex-grow: 1; padding: 40px; flex-direction: row; justify-content: center; background-color: #f8fafc;">
+        
+        <!-- Video Player Area -->
+        <ui:VisualElement style="width: 750px; margin-right: 30px;">
+            <ui:VisualElement style="background-color: black; height: 420px; border-radius: 12px; align-items: center; justify-content: center; margin-bottom: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                <ui:Label text="▶️" style="font-size: 80px; color: rgba(255, 255, 255, 0.8);" />
+                <ui:Label text="Как не попасться на фишинг в 2026 году" style="color: white; font-size: 24px; position: absolute; top: 20px; left: 20px; -unity-font-style: bold;" />
             </ui:VisualElement>
             
-            <ui:Label text="СЕКРЕТНАЯ СХЕМА ЗАРАБОТКА (БЕЗ ВЛОЖЕНИЙ)" style="color: white; font-size: 24px; -unity-font-style: bold; margin-bottom: 15px;" />
+            <ui:Label text="Как распознать мошенников в интернете | Полное руководство" class="text-wrap" style="color: #0f172a; font-size: 24px; -unity-font-style: bold; margin-bottom: 15px;" />
             
-            <ui:VisualElement style="flex-direction: row; align-items: center; margin-bottom: 20px;">
-                <ui:VisualElement style="width: 50px; height: 50px; border-radius: 25px; background-color: #ff0000; justify-content: center; align-items: center; margin-right: 15px;">
-                    <ui:Label text="М" style="color: white; font-size: 24px; -unity-font-style: bold;" />
+            <ui:VisualElement style="flex-direction: row; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <ui:VisualElement style="flex-direction: row; align-items: center;">
+                    <ui:VisualElement style="background-color: #ef4444; width: 40px; height: 40px; border-radius: 20px; align-items: center; justify-content: center; margin-right: 15px;">
+                        <ui:Label text="S" style="color: white; font-size: 20px; -unity-font-style: bold;" />
+                    </ui:VisualElement>
+                    <ui:VisualElement>
+                        <ui:Label text="Secure Channel" style="color: #0f172a; font-size: 16px; -unity-font-style: bold;" />
+                        <ui:Label text="1.2 млн подписчиков" style="color: #64748b; font-size: 14px;" />
+                    </ui:VisualElement>
+                    <ui:Button text="Подписаться" class="button-premium bg-dark" style="padding: 10px 20px; border-radius: 20px; margin-left: 20px;" />
                 </ui:VisualElement>
-                <ui:Label name="channel-name" text="Mr. Оффициальный Канал" style="color: white; font-size: 18px; -unity-font-style: bold;" />
-                <ui:Label text="1.2M Подписчиков" style="color: #aaaaaa; font-size: 14px; margin-left: 10px;" />
+                
+                <ui:VisualElement style="flex-direction: row;">
+                    <ui:VisualElement style="flex-direction: row; background-color: #e2e8f0; border-radius: 20px; align-items: center; overflow: hidden; margin-right: 15px;">
+                        <ui:Button text="👍 45 тыс." style="background-color: transparent; border-width: 0; padding: 10px 15px; font-size: 14px; -unity-font-style: bold; color: #0f172a; border-right-width: 1px; border-right-color: #cbd5e1;" />
+                        <ui:Button text="👎" style="background-color: transparent; border-width: 0; padding: 10px 15px; font-size: 14px;" />
+                    </ui:VisualElement>
+                    <ui:Button text="↪️ Поделиться" style="background-color: #e2e8f0; border-radius: 20px; border-width: 0; padding: 10px 15px; font-size: 14px; -unity-font-style: bold; color: #0f172a;" />
+                </ui:VisualElement>
             </ui:VisualElement>
             
-            <ui:VisualElement style="background-color: #272727; padding: 20px; border-radius: 12px;">
-                <ui:Label text="СКАЧАЙ ПРОГРАММУ ПО ССЫЛКЕ НИЖЕ И НАЧНИ ЗАРАБАТЫВАТЬ!" style="color: white; font-size: 16px; margin-bottom: 15px; white-space: normal;" />
-                <ui:Label name="download-link" text="http://bit.ly/secret-money-generator-exe" style="color: #3ea6ff; font-size: 16px; -unity-font-style: bold;" />
+            <ui:VisualElement style="background-color: #f1f5f9; padding: 15px; border-radius: 12px; margin-bottom: 30px;">
+                <ui:Label text="4.5 млн просмотров • 2 дня назад" style="color: #0f172a; font-size: 14px; -unity-font-style: bold; margin-bottom: 5px;" />
+                <ui:Label text="В этом видео мы расскажем о главных уловках злоумышленников и о том, почему не стоит переходить по подозрительным ссылкам из электронных писем." class="text-wrap" style="color: #334155; font-size: 14px;" />
             </ui:VisualElement>
         </ui:VisualElement>
+        
+        <!-- Right Side: Recommendations (Phishing Target Area) -->
+        <ui:VisualElement style="width: 350px;">
+            <ui:VisualElement class="card-premium" style="margin-bottom: 20px; padding: 15px; flex-direction: row;">
+                <ui:VisualElement style="width: 140px; height: 80px; background-color: #e2e8f0; border-radius: 8px; align-items: center; justify-content: center; margin-right: 10px;">
+                    <ui:Label text="🎞️" style="font-size: 40px;" />
+                </ui:VisualElement>
+                <ui:VisualElement style="flex-shrink: 1;">
+                    <ui:Label text="Как собрать ПК в 2026" class="text-wrap" style="color: #0f172a; font-size: 14px; -unity-font-style: bold; margin-bottom: 5px;" />
+                    <ui:Label text="Tech Guru" style="color: #64748b; font-size: 12px;" />
+                    <ui:Label text="120 тыс. просмотров" style="color: #64748b; font-size: 12px;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            
+            <!-- Ad Phishing Target -->
+            <ui:VisualElement name="article-ad-container" class="card-premium" style="margin-bottom: 20px; padding: 15px; background-color: #fef2f2; border-color: #ef4444;">
+                <ui:Label text="Реклама" style="background-color: #fcd535; padding: 2px 6px; border-radius: 4px; font-size: 10px; align-self: flex-start; margin-bottom: 10px; -unity-font-style: bold;" />
+                <ui:Label text="Вам доступен бесплатный iPhone 16 Pro Max! Пройдите опрос." class="text-wrap" style="color: #0f172a; font-size: 16px; -unity-font-style: bold; margin-bottom: 10px;" />
+                <ui:Button name="download-button" text="Забрать приз сейчас!" class="button-premium bg-red" style="padding: 10px; font-size: 14px;" />
+            </ui:VisualElement>
+            
+            <ui:VisualElement class="card-premium" style="padding: 15px; flex-direction: row;">
+                <ui:VisualElement style="width: 140px; height: 80px; background-color: #e2e8f0; border-radius: 8px; align-items: center; justify-content: center; margin-right: 10px;">
+                    <ui:Label text="🎙️" style="font-size: 40px;" />
+                </ui:VisualElement>
+                <ui:VisualElement style="flex-shrink: 1;">
+                    <ui:Label text="Подкаст о дизайне игр" class="text-wrap" style="color: #0f172a; font-size: 14px; -unity-font-style: bold; margin-bottom: 5px;" />
+                    <ui:Label text="GameDev Talks" style="color: #64748b; font-size: 12px;" />
+                    <ui:Label text="34 тыс. просмотров" style="color: #64748b; font-size: 12px;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+        </ui:VisualElement>
+        
     </ui:VisualElement>
 </ui:UXML>

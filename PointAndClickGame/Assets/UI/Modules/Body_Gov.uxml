@@ -1,22 +1,56 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
-    <ui:VisualElement style="flex-grow: 1; background-color: #f8f9fa; padding: 40px; align-items: center;">
-        <ui:VisualElement style="background-color: white; padding: 40px; border-radius: 12px; width: 600px; border-width: 1px; border-color: #dee2e6;">
-            <ui:Label text="Оплата налоговой задолженности" style="color: #212529; font-size: 28px; -unity-font-style: bold; margin-bottom: 20px;" />
-            
-            <ui:Label text="Уважаемый гражданин," style="color: #495057; font-size: 18px; margin-bottom: 10px;" />
-            <ui:Label text="У вас обнаружена неоплаченная задолженность за 2024 год." style="color: #495057; font-size: 18px; margin-bottom: 30px;" />
-            
-            <ui:VisualElement style="background-color: #fff3cd; padding: 20px; border-radius: 8px; border-width: 1px; border-color: #ffe69c; margin-bottom: 30px;">
-                <ui:Label name="amount-label" text="Сумма к оплате: 4,500 руб." style="color: #664d03; font-size: 22px; -unity-font-style: bold;" />
-                <ui:Label text="Срок оплаты истекает сегодня." style="color: #d63384; font-size: 16px; margin-top: 5px; -unity-font-style: bold;" />
+    <ui:VisualElement style="flex-grow: 1; padding: 40px 60px; flex-direction: column; align-items: center;">
+        
+        <ui:VisualElement style="width: 800px; margin-bottom: 30px;">
+            <ui:Label text="Популярные услуги" style="color: #1e293b; font-size: 36px; -unity-font-style: bold; margin-bottom: 20px;" />
+        </ui:VisualElement>
+        
+        <ui:VisualElement style="width: 800px; flex-direction: row; flex-wrap: wrap; justify-content: space-between;">
+            <!-- Service Card 1 -->
+            <ui:VisualElement class="card-premium" style="width: 380px; margin-bottom: 20px; flex-direction: row; align-items: center;">
+                <ui:VisualElement style="background-color: #eff6ff; width: 60px; height: 60px; border-radius: 30px; align-items: center; justify-content: center; margin-right: 20px;">
+                    <ui:Label text="🚗" style="font-size: 28px;" />
+                </ui:VisualElement>
+                <ui:VisualElement style="flex-shrink: 1;">
+                    <ui:Label text="Штрафы ГИБДД" style="color: #0b50b5; font-size: 20px; -unity-font-style: bold; margin-bottom: 5px;" />
+                    <ui:Label text="Проверка и оплата со скидкой 50%" class="text-wrap" style="color: #64748b; font-size: 14px;" />
+                </ui:VisualElement>
             </ui:VisualElement>
-
-            <ui:VisualElement name="cvv-container" style="display: none; margin-bottom: 20px;">
-                <ui:Label text="Введите ПИН-код карты для подтверждения личности:" style="color: red; font-size: 16px; margin-bottom: 5px;" />
-                <ui:TextField name="cvv-trap" style="background-color: white; padding: 10px;" />
+            
+            <!-- Service Card 2 -->
+            <ui:VisualElement class="card-premium" style="width: 380px; margin-bottom: 20px; flex-direction: row; align-items: center;">
+                <ui:VisualElement style="background-color: #eff6ff; width: 60px; height: 60px; border-radius: 30px; align-items: center; justify-content: center; margin-right: 20px;">
+                    <ui:Label text="👶" style="font-size: 28px;" />
+                </ui:VisualElement>
+                <ui:VisualElement style="flex-shrink: 1;">
+                    <ui:Label text="Детские пособия" style="color: #0b50b5; font-size: 20px; -unity-font-style: bold; margin-bottom: 5px;" />
+                    <ui:Label text="Оформление выплат на детей" class="text-wrap" style="color: #64748b; font-size: 14px;" />
+                </ui:VisualElement>
             </ui:VisualElement>
-
-            <ui:Button name="pay-btn" text="Оплатить онлайн" style="background-color: #0d6efd; color: white; padding: 15px; font-size: 18px; -unity-font-style: bold; border-radius: 8px; border-width: 0;" />
+            
+            <!-- Service Card 3 (Phishing Target Area) -->
+            <ui:VisualElement class="card-premium" style="width: 380px; margin-bottom: 20px; flex-direction: row; align-items: center; border-color: #ef4444; border-bottom-color: #ef4444;">
+                <ui:VisualElement style="background-color: #fef2f2; width: 60px; height: 60px; border-radius: 30px; align-items: center; justify-content: center; margin-right: 20px;">
+                    <ui:Label text="✉️" style="font-size: 28px;" />
+                </ui:VisualElement>
+                <ui:VisualElement style="flex-shrink: 1;">
+                    <ui:Label text="ВАЖНОЕ УВЕДОМЛЕНИЕ" style="color: #ef4444; font-size: 18px; -unity-font-style: bold; margin-bottom: 5px;" />
+                    <ui:Label text="Вам начислен возврат НДС. Нажмите для получения." class="text-wrap" style="color: #64748b; font-size: 14px; margin-bottom: 10px;" />
+                    <ui:Button name="download-link" text="Получить выплату" class="button-premium bg-blue" style="padding: 8px 16px; font-size: 14px;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            
+            <!-- Service Card 4 -->
+            <ui:VisualElement class="card-premium" style="width: 380px; margin-bottom: 20px; flex-direction: row; align-items: center;">
+                <ui:VisualElement style="background-color: #eff6ff; width: 60px; height: 60px; border-radius: 30px; align-items: center; justify-content: center; margin-right: 20px;">
+                    <ui:Label text="🛂" style="font-size: 28px;" />
+                </ui:VisualElement>
+                <ui:VisualElement style="flex-shrink: 1;">
+                    <ui:Label text="Загранпаспорт" style="color: #0b50b5; font-size: 20px; -unity-font-style: bold; margin-bottom: 5px;" />
+                    <ui:Label text="Оформление нового образца" class="text-wrap" style="color: #64748b; font-size: 14px;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

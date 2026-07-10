@@ -1,12 +1,28 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
-    <ui:VisualElement style="background-color: #0f0f0f; padding: 20px; flex-direction: row; justify-content: space-between; align-items: center;">
+    <ui:VisualElement style="background-color: white; padding: 15px 40px; flex-direction: row; justify-content: space-between; align-items: center; border-bottom-width: 1px; border-bottom-color: rgba(0,0,0,0.1);">
         <ui:VisualElement style="flex-direction: row; align-items: center;">
-            <ui:Label text="▶️" style="font-size: 32px; color: red;" />
-            <ui:Label name="video-logo" text="YouTube" style="color: white; font-size: 24px; -unity-font-style: bold; margin-left: 5px; letter-spacing: -1px;" />
+            <ui:Label text="▶️" style="font-size: 32px; color: #ff0000;" />
+            <ui:Label name="video-logo" text="MeTube" style="color: #0f172a; font-size: 26px; -unity-font-style: bold; margin-left: 5px; letter-spacing: -1px;" />
         </ui:VisualElement>
-        <ui:VisualElement style="flex-direction: row; background-color: #272727; padding: 8px 16px; border-radius: 20px; align-items: center;">
-            <ui:Label name="lock-icon" text="🔒" style="margin-right: 8px; color: white;" />
-            <ui:Label name="url-text" text="https://www.youtube.com/" style="color: white;" />
+        
+        <ui:VisualElement style="flex-direction: row; background-color: #f1f5f9; padding: 10px 20px; border-radius: 20px; align-items: center; width: 450px; justify-content: space-between; border-width: 1px; border-color: #cbd5e1;">
+            <ui:Label text="Введите запрос..." style="color: #64748b; font-size: 16px;" />
+            <ui:VisualElement style="background-color: #e2e8f0; padding: 5px 15px; border-radius: 12px; border-width: 1px; border-color: #cbd5e1; margin-right: -10px;">
+                <ui:Label text="🔍" style="font-size: 18px;" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+        
+        <ui:VisualElement style="flex-direction: row; align-items: center;">
+            <ui:Label name="lock-icon" text="🔒" style="margin-right: 8px; color: #10b981; font-size: 18px;" />
+            <ui:Label name="url-text" text="https://www.metube.com/" style="color: #334155; font-size: 16px; margin-right: 20px;" />
+            
+            <ui:VisualElement style="flex-direction: row; align-items: center; margin-left: 20px;">
+                <ui:Label text="🎥" style="font-size: 24px; margin-right: 15px;" />
+                <ui:Label text="🔔" style="font-size: 24px; margin-right: 15px;" />
+                <ui:VisualElement style="background-color: #3b82f6; width: 36px; height: 36px; border-radius: 18px; align-items: center; justify-content: center;">
+                    <ui:Label text="U" style="color: white; font-size: 18px; -unity-font-style: bold;" />
+                </ui:VisualElement>
+            </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>

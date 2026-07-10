@@ -2,65 +2,160 @@
     <Style src="MainOverlay.uss" />
     <ui:VisualElement name="root-container" class="root-container">
         
-        <!-- START SCREEN -->
+        <!-- ЭКРАН 1: ПРЕДУПРЕЖДЕНИЕ -->
         <ui:VisualElement name="start-screen" class="menu-screen">
-            <ui:VisualElement class="menu-panel start-panel">
-                <ui:Label text="ОБРАТИТЕ ВНИМАНИЕ" class="start-title" />
-                <ui:Label text="Ежедневно миллионы людей становятся жертвами фишинга, теряя деньги и личные данные. Этот симулятор создан для того, чтобы научить вас распознавать обман в интернете." class="start-subtitle" />
-                
-                <ui:VisualElement class="start-hint-box">
-                    <ui:Label text="КЛИКНИТЕ В ЛЮБОМ МЕСТЕ ДЛЯ ПРОДОЛЖЕНИЯ" class="start-hint-text" />
+            <!-- Фоновое свечение (Кибер-свет) -->
+            <ui:VisualElement class="bg-glow bg-glow-indigo" />
+            <ui:VisualElement class="bg-glow bg-glow-cyan" />
+            
+            <!-- Системный Хедер Дашборда -->
+            <ui:VisualElement class="dashboard-header">
+                <ui:VisualElement class="header-logo-container">
+                    <ui:Label text="🛡️" class="header-logo-icon" />
+                    <ui:Label text="CYBER.SHIELD" class="header-logo-text" />
                 </ui:VisualElement>
+                <ui:VisualElement class="header-status-badge badge-warning">
+                    <ui:Label text="● СТАТУС: ТРЕБУЕТСЯ ВНИМАНИЕ" class="header-status-text" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            
+            <!-- Обертка для позиционирования карточки -->
+            <ui:VisualElement class="card-center-wrapper">
+                <ui:VisualElement class="menu-panel warning-panel">
+                    
+                    <!-- Декоративный статус угрозы -->
+                    <ui:Label text="БЕЗОПАСНОСТЬ ДАННЫХ" class="card-tag-label" style="color: #FF3B30;" />
+                    
+                    <!-- Заголовок карточки -->
+                    <ui:Label text="ОБРАТИТЕ ВНИМАНИЕ" class="warning-title" />
+                    
+                    <!-- Вложенный блок анализа угрозы (Inset Box) -->
+                    <ui:VisualElement class="inset-box alert-inset">
+                        <ui:VisualElement class="alert-header">
+                            <ui:Label text="🚨" class="alert-icon" />
+                            <ui:Label text="АНАЛИЗ РИСКОВ БЕЗОПАСНОСТИ" class="alert-tag" />
+                        </ui:VisualElement>
+                        <ui:Label text="Ежедневно миллионы людей становятся жертвами фишинга, теряя деньги и личные данные. Этот симулятор создан для того, чтобы научить вас распознавать обман в интернете." class="warning-description" />
+                    </ui:VisualElement>
+                    
+                    <!-- Кнопка действия -->
+                    <ui:Button name="btn-continue" text="ПРОДОЛЖИТЬ" class="btn-primary-gradient pill-button button-full-width" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            
+            <!-- Системный Футер Дашборда -->
+            <ui:VisualElement class="dashboard-footer">
+                <ui:Label text="ИНФОРМАЦИОННАЯ ПАНЕЛЬ СИМУЛЯТОРА ЗАЩИТЫ ДАННЫХ" class="footer-text" />
             </ui:VisualElement>
         </ui:VisualElement>
 
-        <!-- MAIN MENU SCREEN -->
+        <!-- ЭКРАН 2: ГЛАВНОЕ МЕНЮ -->
         <ui:VisualElement name="main-menu-screen" class="menu-screen hidden">
-            <ui:VisualElement class="menu-panel">
-                <ui:Label text="НАЙДИ ПОДДЕЛКУ" class="game-title" />
-                <ui:Label text="СИМУЛЯТОР АНТИ-ФИШИНГА" class="game-subtitle" />
-                
-                <ui:VisualElement class="menu-buttons-container">
-                    <ui:Button name="btn-training" text="ТРЕНИРОВКА" class="menu-button btn-primary" />
-                    <ui:Button name="btn-tutorial" text="ОБУЧЕНИЕ" class="menu-button btn-secondary" />
+            <!-- Фоновое свечение -->
+            <ui:VisualElement class="bg-glow bg-glow-indigo" />
+            <ui:VisualElement class="bg-glow bg-glow-cyan" />
+            
+            <!-- Системный Хедер Дашборда -->
+            <ui:VisualElement class="dashboard-header">
+                <ui:VisualElement class="header-logo-container">
+                    <ui:Label text="🛡️" class="header-logo-icon" />
+                    <ui:Label text="CYBER.SHIELD" class="header-logo-text" />
                 </ui:VisualElement>
-                
-                <ui:Label text="Будьте внимательны. Никому не доверяйте." class="footer-hint" />
+                <ui:VisualElement class="header-status-badge badge-active">
+                    <ui:Label text="● СИСТЕМА АКТИВНА" class="header-status-text" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            
+            <!-- Обертка для позиционирования карточки -->
+            <ui:VisualElement class="card-center-wrapper">
+                <ui:VisualElement class="menu-panel menu-main-panel">
+                    
+                    <!-- Внутренний тэг назначения -->
+                    <ui:Label text="ИНТЕРАКТИВНЫЙ ТРЕНАЖЕР" class="card-tag-label" />
+                    
+                    <!-- Главный заголовок меню -->
+                    <ui:Label text="НАЙДИ ПОДДЕЛКУ" class="main-title" />
+                    
+                    <!-- Подзаголовок с разрядкой -->
+                    <ui:Label text="СИМУЛЯТОР АНТИ-ФИШИНГА" class="main-subtitle" />
+                    
+                    <!-- Вложенный инсет с описанием (Inset Box) -->
+                    <ui:VisualElement class="inset-box description-inset">
+                        <ui:Label text="Для запуска выберите режим тренировки в реальном времени или пройдите интерактивный пошаговый курс обучения." class="menu-desc-text" />
+                    </ui:VisualElement>
+                    
+                    <!-- Контейнер с кнопками выбора -->
+                    <ui:VisualElement class="menu-buttons-vertical-container">
+                        <ui:Button name="btn-training" text="ТРЕНИРОВКА" class="btn-primary-gradient pill-button button-spacing" />
+                        <ui:Button name="btn-tutorial" text="ОБУЧЕНИЕ" class="btn-ghost-gradient pill-button" />
+                    </ui:VisualElement>
+                </ui:VisualElement>
+            </ui:VisualElement>
+            
+            <!-- Системный Футер Дашборда -->
+            <ui:VisualElement class="dashboard-footer">
+                <ui:Label text="Будьте внимательны. Никому не доверяйте." class="footer-text" />
             </ui:VisualElement>
         </ui:VisualElement>
 
-        <!-- GAME SCREEN -->
+        <!-- ИГРОВОЙ ЭКРАН -->
         <ui:VisualElement name="game-screen" class="game-screen hidden">
-            <!-- Top Bar -->
+            <!-- Верхняя панель статистики (Top Bar) -->
             <ui:VisualElement name="top-bar" class="top-bar">
                 <ui:Label name="timer-label" text="Время: 30" class="header-text text-timer" />
                 <ui:Label name="lives-label" text="Жизни: ❤️❤️❤️" class="header-text text-lives" />
                 <ui:Label name="progress-label" text="Найдено уловок: 0" class="header-text text-progress" />
             </ui:VisualElement>
             
-            <!-- Target Website Container -->
+            <!-- Контейнер для отображения веб-сайта -->
             <ui:VisualElement name="level-container-wrapper" class="level-container-wrapper">
                 <ui:VisualElement name="level-container" class="level-container" />
             </ui:VisualElement>
             
-            <!-- Bottom Bar -->
+            <!-- Нижняя панель действий (Bottom Bar) -->
             <ui:VisualElement name="bottom-bar" class="bottom-bar">
                 <ui:Label text="Считаете, что уловок больше нет?" class="footer-prompt" />
                 <ui:Button name="safe-button" text="СТРАНИЦА БЕЗОПАСНА" class="action-button" />
             </ui:VisualElement>
         </ui:VisualElement>
         
-        <!-- GAME OVER SCREEN -->
+        <!-- ЭКРАН ИГРА ОКОНЧЕНА -->
         <ui:VisualElement name="game-over-screen" class="menu-screen hidden">
-            <ui:VisualElement class="menu-panel border-red">
-                <ui:Label text="ИГРА ОКОНЧЕНА" class="game-over-title" />
-                <ui:Label text="ВЫ ПРОПУСТИЛИ ФИШИНГОВУЮ УЛОВКУ" class="game-subtitle" />
-                
-                <ui:Button name="restart-button" text="В ГЛАВНОЕ МЕНЮ" class="menu-button btn-primary" style="margin-top: 20px;" />
+            <ui:VisualElement class="bg-glow bg-glow-indigo" />
+            <ui:VisualElement class="bg-glow bg-glow-cyan" />
+            
+            <ui:VisualElement class="dashboard-header">
+                <ui:VisualElement class="header-logo-container">
+                    <ui:Label text="🛡️" class="header-logo-icon" />
+                    <ui:Label text="CYBER.SHIELD" class="header-logo-text" />
+                </ui:VisualElement>
+                <ui:VisualElement class="header-status-badge badge-warning" style="background-color: rgba(255, 59, 48, 0.06); border-color: rgba(255, 59, 48, 0.15); color: #FF3B30;">
+                    <ui:Label text="● КРИТИЧЕСКИЙ СБОЙ" class="header-status-text" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            
+            <ui:VisualElement class="card-center-wrapper">
+                <ui:VisualElement class="menu-panel border-red">
+                    <ui:VisualElement class="badge-container" style="background-color: rgba(255, 59, 48, 0.06); border-color: rgba(255, 59, 48, 0.15);">
+                        <ui:Label text="🚨" class="badge-icon" />
+                    </ui:VisualElement>
+                    
+                    <ui:Label text="ИГРА ОКОНЧЕНА" class="game-over-title" />
+                    
+                    <ui:VisualElement class="inset-box alert-inset" style="margin-bottom: 24px;">
+                        <ui:Label text="Вы допустили критическую ошибку в безопасности и пропустили фишинговую уловку мошенников." class="menu-desc-text" style="color: #FF3B30;" />
+                    </ui:VisualElement>
+                    
+                    <ui:Button name="restart-button" text="В ГЛАВНОЕ МЕНЮ" class="btn-primary-gradient pill-button button-full-width" />
+                </ui:VisualElement>
+            </ui:VisualElement>
+            
+            <ui:VisualElement class="dashboard-footer">
+                <ui:Label text="ПОПЫТКА ЗАВЕРШЕНА С ОШИБКАМИ" class="footer-text" />
             </ui:VisualElement>
         </ui:VisualElement>
 
-        <!-- TOOLTIP OVERLAY -->
+        <!-- ВСПЛЫВАЮЩИЕ ПОДСКАЗКИ (TOOLTIP) -->
         <ui:VisualElement name="tooltip-overlay" class="tooltip-overlay hidden">
             <ui:VisualElement class="tooltip-panel">
                 <ui:Label name="tooltip-title" text="ВНИМАНИЕ!" class="tooltip-title" />

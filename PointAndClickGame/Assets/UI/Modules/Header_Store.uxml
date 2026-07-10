@@ -1,12 +1,18 @@
 <ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
-    <ui:VisualElement style="background-color: #005bff; padding: 20px; flex-direction: row; justify-content: space-between; align-items: center;">
+    <ui:VisualElement style="background-color: #005bff; padding: 15px 40px; flex-direction: row; justify-content: space-between; align-items: center; border-bottom-width: 2px; border-bottom-color: #0045c7;">
         <ui:VisualElement style="flex-direction: row; align-items: center;">
-            <ui:Label text="📦" style="font-size: 32px;" />
-            <ui:Label name="store-logo" text="O3ON" style="color: white; font-size: 28px; -unity-font-style: bold; margin-left: 10px;" />
+            <ui:Label text="📦" style="font-size: 36px;" />
+            <ui:Label name="store-logo" text="OZON" style="color: white; font-size: 32px; -unity-font-style: bold; margin-left: 10px; letter-spacing: 2px;" />
         </ui:VisualElement>
-        <ui:VisualElement style="flex-direction: row; background-color: white; padding: 8px 16px; border-radius: 20px; align-items: center;">
-            <ui:Label name="lock-icon" text="🔒" style="margin-right: 8px; color: #198754;" />
-            <ui:Label name="url-text" text="https://www.ozon.ru/" style="color: #212529;" />
+        
+        <ui:VisualElement style="flex-direction: row; background-color: rgba(255, 255, 255, 0.2); padding: 10px 20px; border-radius: 8px; align-items: center; width: 400px; justify-content: space-between;">
+            <ui:Label text="Поиск товаров..." style="color: rgba(255, 255, 255, 0.7); font-size: 16px; -unity-font-style: italic;" />
+            <ui:Label text="🔍" style="font-size: 20px;" />
+        </ui:VisualElement>
+
+        <ui:VisualElement style="flex-direction: row; background-color: white; padding: 10px 20px; border-radius: 20px; align-items: center; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+            <ui:Label name="lock-icon" text="🔒" style="margin-right: 8px; color: #198754; font-size: 18px;" />
+            <ui:Label name="url-text" text="https://www.ozon.ru/" style="color: #1e293b; font-size: 18px; -unity-font-style: bold;" />
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>
