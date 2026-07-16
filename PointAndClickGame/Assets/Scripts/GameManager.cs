@@ -7,12 +7,9 @@ using System.Linq;
 public class GameManager : MonoBehaviour
 {
     public UIDocument mainUIDocument;
-    public VisualTreeAsset tutorialLevelAsset; 
+    public VisualTreeAsset tutorialLevelAsset;
     public ProceduralLevelGenerator levelGenerator;
 
-    private int lives = 3;
-    
-    // UI Elements
     private VisualElement startScreen;
     private VisualElement mainMenuScreen;
     private Button btnTutorial;
@@ -24,22 +21,40 @@ public class GameManager : MonoBehaviour
     private Label timerLabel;
     private Button safeButton;
     private VisualElement levelContainer;
-    
-    private float timeLeft = 30f;
-    private bool timerActive = false;
-    
+
+    private Label scoreLabel;
+    private Label finalScoreLabel;
+    private VisualElement newRecordContainer;
+    private TextField playerNameInput;
+    private Button btnSaveScore;
+    private readonly List<Label> leaderBoardRows = new List<Label>();
+
+    private int score = 0;
+
+    private const string ScoreNameKey = "HighScoreName_";
+    private const string ScoreValueKey = "HighScoreValue_";
+
     private VisualElement tooltipOverlay;
     private Label tooltipText;
 
     private VisualElement gameOverScreen;
     private Button restartButton;
 
-    // Level state
+    private Button adviceButton;
+    private Button magnifierButton;
+
+    private int lives = 3;
+    private int adviceUses = 2;
     private int totalTrapsInLevel = 0;
     private int foundTrapsInLevel = 0;
+
+    private float timeLeft = 30f;
+    private bool timerActive = false;
     private bool isLevelOver = false;
     private bool isTutorial = false;
-    
+    private bool isMagnifierActive = false;
+
+    private readonly Dictionary<Label, string> originalLabelTexts = new Dictionary<Label, string>();
     private readonly WaitForSeconds tooltipDelay = new WaitForSeconds(4.0f);
     private readonly WaitForSeconds levelTransitionDelay = new WaitForSeconds(2.0f);
 
@@ -54,32 +69,50 @@ public class GameManager : MonoBehaviour
     {
         var root = mainUIDocument.rootVisualElement;
 
-        // Menu Elements
         startScreen = root.Q<VisualElement>("start-screen");
         mainMenuScreen = root.Q<VisualElement>("main-menu-screen");
         btnTutorial = root.Q<Button>("btn-tutorial");
         btnTraining = root.Q<Button>("btn-training");
 
-        // Game Elements
         gameScreen = root.Q<VisualElement>("game-screen");
         livesLabel = root.Q<Label>("lives-label");
         progressLabel = root.Q<Label>("progress-label");
         timerLabel = root.Q<Label>("timer-label");
         safeButton = root.Q<Button>("safe-button");
         levelContainer = root.Q<VisualElement>("level-container");
-        
+
         tooltipOverlay = root.Q<VisualElement>("tooltip-overlay");
         tooltipText = root.Q<Label>("tooltip-text");
 
         gameOverScreen = root.Q<VisualElement>("game-over-screen");
         restartButton = root.Q<Button>("restart-button");
 
-        // Bindings
+        Button btnQuit = root.Q<Button>("btn-quit");
+        adviceButton = root.Q<Button>("advice-button");
+        magnifierButton = root.Q<Button>("magnifier-button");
+
+        scoreLabel = root.Q<Label>("score-label");
+        finalScoreLabel = root.Q<Label>("final-score-label");
+        newRecordContainer = root.Q<VisualElement>("new-record-container");
+        playerNameInput = root.Q<TextField>("player-name-input");
+        btnSaveScore = root.Q<Button>("btn-save-score");
+
+        leaderBoardRows.Clear();
+        for (int i = 0; i < 5; i++)
+        {
+            var row = root.Q<Label>($"leader-row-{i}");
+            if (row != null) leaderBoardRows.Add(row);
+        }
+
         if (startScreen != null) startScreen.RegisterCallback<ClickEvent>(evt => ShowMainMenu());
-        btnTutorial.clicked += StartTutorialLevel;
-        btnTraining.clicked += StartProceduralGame;
-        safeButton.clicked += OnSafeButtonClicked;
-        restartButton.clicked += ShowMainMenu;
+        if (btnTutorial != null) btnTutorial.clicked += StartTutorialLevel;
+        if (btnTraining != null) btnTraining.clicked += StartProceduralGame;
+        if (btnQuit != null) btnQuit.clicked += QuitGame;
+        if (safeButton != null) safeButton.clicked += OnSafeButtonClicked;
+        if (adviceButton != null) adviceButton.clicked += UseAdvice;
+        if (magnifierButton != null) magnifierButton.clicked += ToggleMagnifier;
+        if (restartButton != null) restartButton.clicked += ShowMainMenu;
+        if (btnSaveScore != null) btnSaveScore.clicked += SaveNewRecord;
 
         ApplyDynamicGradients(root);
     }
@@ -147,40 +180,53 @@ public class GameManager : MonoBehaviour
     private void StartProceduralGame()
     {
         lives = 3;
+        adviceUses = 2;
+        score = 0;
         isTutorial = false;
+        isMagnifierActive = false;
+
+        originalLabelTexts.Clear();
         mainMenuScreen.AddToClassList("hidden");
         gameOverScreen.AddToClassList("hidden");
         gameScreen.RemoveFromClassList("hidden");
+
         UpdateLivesUI();
-        
+        UpdateAdviceButtonUI();
+        UpdateMagnifierUI();
+        UpdateScoreUI();
+
         StartNextProceduralLevel();
     }
 
     private void StartTutorialLevel()
     {
         lives = 3;
+        adviceUses = 2;
+        score = 0;
         isTutorial = true;
         isLevelOver = false;
         timerActive = false;
+        isMagnifierActive = false;
+
+        originalLabelTexts.Clear();
+        levelContainer.Clear();
         mainMenuScreen.AddToClassList("hidden");
         gameOverScreen.AddToClassList("hidden");
         gameScreen.RemoveFromClassList("hidden");
-        levelContainer.Clear();
+
         UpdateLivesUI();
+        UpdateAdviceButtonUI();
+        UpdateMagnifierUI();
+        UpdateScoreUI();
+
         if (timerLabel != null) timerLabel.text = "Время: ∞";
-        
-        if (tutorialLevelAsset != null)
-        {
-            var tutorialUI = tutorialLevelAsset.Instantiate();
-            tutorialUI.style.flexGrow = 1;
-            levelContainer.Add(tutorialUI);
-            SetupTraps(tutorialUI);
-            UpdateProgressUI();
-        }
-        else
-        {
-            Debug.LogError("Tutorial Level Asset is not assigned!");
-        }
+        if (tutorialLevelAsset == null) { Debug.LogError("Tutorial Level Asset is not assigned!"); return; }
+
+        var tutorialUI = tutorialLevelAsset.Instantiate();
+        tutorialUI.style.flexGrow = 1;
+        levelContainer.Add(tutorialUI);
+        SetupTraps(tutorialUI);
+        UpdateProgressUI();
     }
 
     private void StartNextProceduralLevel()
@@ -209,44 +255,77 @@ public class GameManager : MonoBehaviour
         totalTrapsInLevel = traps.Count;
         foundTrapsInLevel = 0;
 
+        Debug.Log($"<color=#FF9900>Traps count: {totalTrapsInLevel}</color>");
         foreach (var trap in traps)
         {
-            trap.RegisterCallback<ClickEvent>(evt => OnTrapClicked(evt, trap));
+            Debug.Log($"<color=#00FFFF>Trap tooltip: {trap.tooltip}</color>");
         }
 
-        // Add a general click listener to the whole webpage for miss-clicks
-        rootElement.RegisterCallback<ClickEvent>(OnMissClick);
-    }
+        rootElement.RegisterCallback<ClickEvent>(OnLevelClicked);
 
-    private void OnTrapClicked(ClickEvent evt, VisualElement trap)
-    {
-        if (isLevelOver) return;
-        evt.StopPropagation();
-
-        if (trap.ClassListContains("phishing-found")) return;
-
-        trap.AddToClassList("phishing-found");
-        trap.style.borderBottomWidth = 4;
-        trap.style.borderBottomColor = new StyleColor(new Color(0.2f, 0.8f, 0.2f)); // Green highlight
-
-        foundTrapsInLevel++;
-        UpdateProgressUI();
-
-        string reason = trap.tooltip;
-        if (string.IsNullOrEmpty(reason)) reason = "Фишинговый элемент найден!";
-        
-        AudioManager.Instance?.PlaySuccess();
-        ShowTooltip(reason);
-    }
-
-    private void OnMissClick(ClickEvent evt)
-    {
-        if (isLevelOver) return;
-        
-        var target = evt.target as VisualElement;
-        // Don't punish for clicking the safe button or other UI outside the level
-        if (target != null && !target.ClassListContains("phishing-target"))
+        originalLabelTexts.Clear();
+        List<Label> labels = rootElement.Query<Label>().ToList();
+        foreach (var label in labels)
         {
+            label.RegisterCallback<MouseEnterEvent>(evt => OnLabelEnter(label));
+            label.RegisterCallback<MouseLeaveEvent>(evt => OnLabelLeave(label));
+        }
+    }
+
+    private void OnLevelClicked(ClickEvent evt)
+    {
+        if (isLevelOver) return;
+
+        VisualElement target = evt.target as VisualElement;
+        VisualElement current = target;
+        VisualElement trap = null;
+        VisualElement levelRoot = evt.currentTarget as VisualElement;
+
+        while (current != null)
+        {
+            if (current.ClassListContains("phishing-target"))
+            {
+                trap = current;
+                break;
+            }
+            if (current == levelRoot)
+            {
+                break;
+            }
+            current = current.parent;
+        }
+
+        if (trap != null)
+        {
+            if (trap.ClassListContains("phishing-found")) return;
+
+            trap.AddToClassList("phishing-found");
+            trap.style.borderBottomWidth = 4;
+            trap.style.borderBottomColor = new StyleColor(new Color(0.2f, 0.8f, 0.2f));
+
+            if (trap.ClassListContains("phishing-hide-on-found"))
+            {
+                if (trap.parent != null) trap.parent.style.display = DisplayStyle.None;
+                else trap.style.display = DisplayStyle.None;
+            }
+
+            foundTrapsInLevel++;
+            UpdateProgressUI();
+
+            score += 100;
+            UpdateScoreUI();
+
+            string reason = trap.tooltip;
+            if (string.IsNullOrEmpty(reason)) reason = "Фишинговый элемент найден!";
+
+            AudioManager.Instance?.PlaySuccess();
+            ShowTooltip(reason);
+        }
+        else
+        {
+            score = Mathf.Max(0, score - 50);
+            UpdateScoreUI();
+
             AudioManager.Instance?.PlayError();
             ShowTooltip("Промах! Это обычный элемент.");
             LoseLife();
@@ -261,11 +340,18 @@ public class GameManager : MonoBehaviour
 
         if (foundTrapsInLevel == totalTrapsInLevel)
         {
+            if (totalTrapsInLevel == 0) score += 250;
+            if (!isTutorial) score += Mathf.RoundToInt(timeLeft * 10f);
+            UpdateScoreUI();
+
             AudioManager.Instance?.PlaySuccess();
             LevelPassed();
         }
         else
         {
+            score = Mathf.Max(0, score - 50);
+            UpdateScoreUI();
+
             AudioManager.Instance?.PlayError();
             ShowTooltip("На странице еще есть уловки! Ищите внимательнее.");
             LoseLife();
@@ -315,9 +401,24 @@ public class GameManager : MonoBehaviour
         isLevelOver = true;
         timerActive = false;
         AudioManager.Instance?.PlayGameOver();
-        gameOverScreen.RemoveFromClassList("hidden");
+
+        if (finalScoreLabel != null) finalScoreLabel.text = $"Ваш результат: {score} очков";
+
+        LoadAndShowLeaderboard();
+
+        if (CheckNewRecord())
+        {
+            if (newRecordContainer != null) newRecordContainer.RemoveFromClassList("hidden");
+            if (playerNameInput != null) playerNameInput.value = "";
+        }
+        else
+        {
+            if (newRecordContainer != null) newRecordContainer.AddToClassList("hidden");
+        }
+
+        if (gameOverScreen != null) gameOverScreen.RemoveFromClassList("hidden");
     }
-    
+
     private void Update()
     {
         if (timerActive && !isLevelOver && !isTutorial)
@@ -384,5 +485,199 @@ public class GameManager : MonoBehaviour
     {
         yield return tooltipDelay;
         tooltipOverlay.AddToClassList("hidden");
+    }
+
+    private void QuitGame()
+    {
+        #if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+        #else
+        Application.Quit();
+        #endif
+    }
+
+    private void UseAdvice()
+    {
+        if (isLevelOver || adviceUses <= 0) return;
+
+        var traps = levelContainer.Query<VisualElement>(className: "phishing-target").ToList();
+        var activeTraps = traps.Where(t => !t.ClassListContains("phishing-found")).ToList();
+
+        adviceUses--;
+        UpdateAdviceButtonUI();
+
+        if (activeTraps.Count > 0)
+        {
+            VisualElement randomTrap = activeTraps[Random.Range(0, activeTraps.Count)];
+            StartCoroutine(HighlightTrapRoutine(randomTrap));
+        }
+        else
+        {
+            ShowTooltip("Старший аналитик подтверждает: на этой странице всё чисто!");
+        }
+    }
+
+    private IEnumerator HighlightTrapRoutine(VisualElement trap)
+    {
+        trap.style.borderTopWidth = 3;
+        trap.style.borderBottomWidth = 3;
+        trap.style.borderLeftWidth = 3;
+        trap.style.borderRightWidth = 3;
+
+        Color orangeColor = new Color(1.0f, 0.6f, 0.0f);
+        trap.style.borderTopColor = new StyleColor(orangeColor);
+        trap.style.borderBottomColor = new StyleColor(orangeColor);
+        trap.style.borderLeftColor = new StyleColor(orangeColor);
+        trap.style.borderRightColor = new StyleColor(orangeColor);
+
+        yield return new WaitForSeconds(3.0f);
+
+        trap.style.borderTopWidth = StyleKeyword.Null;
+        trap.style.borderBottomWidth = StyleKeyword.Null;
+        trap.style.borderLeftWidth = StyleKeyword.Null;
+        trap.style.borderRightWidth = StyleKeyword.Null;
+
+        trap.style.borderTopColor = StyleKeyword.Null;
+        trap.style.borderBottomColor = StyleKeyword.Null;
+        trap.style.borderLeftColor = StyleKeyword.Null;
+        trap.style.borderRightColor = StyleKeyword.Null;
+    }
+
+    private void UpdateAdviceButtonUI()
+    {
+        if (adviceButton == null) return;
+
+        adviceButton.text = $"СОВЕТ АНАЛИТИКА ({adviceUses})";
+        if (adviceUses <= 0)
+        {
+            adviceButton.SetEnabled(false);
+        }
+        else
+        {
+            adviceButton.SetEnabled(true);
+        }
+    }
+
+    private void ToggleMagnifier()
+    {
+        if (isLevelOver) return;
+        isMagnifierActive = !isMagnifierActive;
+        UpdateMagnifierUI();
+    }
+
+    private void UpdateMagnifierUI()
+    {
+        if (magnifierButton == null) return;
+
+        magnifierButton.text = isMagnifierActive ? "ЛУПА: ВКЛ" : "ЛУПА: ВЫКЛ";
+        magnifierButton.style.backgroundColor = isMagnifierActive ? new StyleColor(new Color(0.0f, 0.32f, 1.0f, 0.15f)) : StyleKeyword.Null;
+    }
+
+    private void OnLabelEnter(Label label)
+    {
+        if (!isMagnifierActive || isLevelOver) return;
+        if (!originalLabelTexts.ContainsKey(label)) originalLabelTexts[label] = label.text;
+
+        label.style.scale = new Scale(new Vector2(1.25f, 1.3f));
+        label.text = HighlightHomoglyphs(originalLabelTexts[label]);
+    }
+
+    private void OnLabelLeave(Label label)
+    {
+        label.style.scale = StyleKeyword.Null;
+        if (originalLabelTexts.TryGetValue(label, out string originalText)) label.text = originalText;
+    }
+
+    private string HighlightHomoglyphs(string originalText)
+    {
+        if (string.IsNullOrEmpty(originalText)) return originalText;
+
+        bool hasCyrillic = false;
+        bool hasLatin = false;
+
+        foreach (char c in originalText)
+        {
+            if ((c >= 'а' && c <= 'я') || (c >= 'А' && c <= 'Я') || c == 'ё' || c == 'Ё') hasCyrillic = true;
+            else if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z')) hasLatin = true;
+        }
+
+        if (!hasCyrillic || !hasLatin) return originalText;
+
+        System.Text.StringBuilder sb = new System.Text.StringBuilder();
+        foreach (char c in originalText)
+        {
+            if ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z')) sb.Append($"<color=#FF3B30>{c}</color>");
+            else sb.Append(c);
+        }
+
+        return sb.ToString();
+    }
+
+    private void UpdateScoreUI()
+    {
+        if (scoreLabel != null) scoreLabel.text = $"Очки: {score}";
+    }
+
+    private void LoadAndShowLeaderboard()
+    {
+        for (int i = 0; i < 5; i++)
+        {
+            string name = PlayerPrefs.GetString(ScoreNameKey + i, "Пусто");
+            int val = PlayerPrefs.GetInt(ScoreValueKey + i, 0);
+            if (i < leaderBoardRows.Count && leaderBoardRows[i] != null)
+            {
+                leaderBoardRows[i].text = $"{i + 1}. {name} — {val}";
+            }
+        }
+    }
+
+    private bool CheckNewRecord()
+    {
+        if (score <= 0) return false;
+        int lowestScore = PlayerPrefs.GetInt(ScoreValueKey + 4, 0);
+        return score > lowestScore;
+    }
+
+    private void SaveNewRecord()
+    {
+        if (!CheckNewRecord()) return;
+
+        string newName = playerNameInput != null ? playerNameInput.value : "СТАЖЕР";
+        if (string.IsNullOrEmpty(newName)) newName = "СТАЖЕР";
+
+        List<string> names = new List<string>();
+        List<int> values = new List<int>();
+
+        for (int i = 0; i < 5; i++)
+        {
+            names.Add(PlayerPrefs.GetString(ScoreNameKey + i, "Пусто"));
+            values.Add(PlayerPrefs.GetInt(ScoreValueKey + i, 0));
+        }
+
+        int insertIndex = -1;
+        for (int i = 0; i < 5; i++)
+        {
+            if (score > values[i])
+            {
+                insertIndex = i;
+                break;
+            }
+        }
+
+        if (insertIndex != -1)
+        {
+            names.Insert(insertIndex, newName);
+            values.Insert(insertIndex, score);
+
+            for (int i = 0; i < 5; i++)
+            {
+                PlayerPrefs.SetString(ScoreNameKey + i, names[i]);
+                PlayerPrefs.SetInt(ScoreValueKey + i, values[i]);
+            }
+            PlayerPrefs.Save();
+        }
+
+        if (newRecordContainer != null) newRecordContainer.AddToClassList("hidden");
+        LoadAndShowLeaderboard();
     }
 }

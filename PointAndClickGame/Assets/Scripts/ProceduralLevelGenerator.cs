@@ -20,6 +20,12 @@ public class ProceduralLevelGenerator : MonoBehaviour
     [Tooltip("UXML для инжекта таймера (подгружается из кода, если список пуст)")]
     public VisualTreeAsset urgentTimerAsset;
 
+    [Tooltip("UXML для инжекта фальшивого чата")]
+    public VisualTreeAsset fakeChatAsset;
+
+    [Tooltip("UXML для инжекта системного окна")]
+    public VisualTreeAsset systemModalAsset;
+
     private void Awake()
     {
         // Populate default genius anomalies if empty
@@ -175,7 +181,50 @@ public class ProceduralLevelGenerator : MonoBehaviour
 
     private void ApplyTrap(VisualElement element, AnomalyDefinition trap)
     {
-        // Special hardcoded case for CVV (unhiding it)
+        if (trap.anomalyType == AnomalyType.SpawnFakeChat)
+        {
+            if (fakeChatAsset != null)
+            {
+                var instance = fakeChatAsset.Instantiate();
+                instance.style.position = Position.Absolute;
+                instance.style.left = 0;
+                instance.style.top = 0;
+                instance.style.right = 0;
+                instance.style.bottom = 0;
+                instance.pickingMode = PickingMode.Ignore;
+
+                var target = instance.Children().FirstOrDefault() ?? instance;
+                target.AddToClassList("phishing-target");
+                target.AddToClassList("phishing-hide-on-found");
+                target.tooltip = trap.tooltipMessage;
+                target.pickingMode = PickingMode.Position;
+                element.Add(instance);
+            }
+            return;
+        }
+
+        if (trap.anomalyType == AnomalyType.SpawnSystemModal)
+        {
+            if (systemModalAsset != null)
+            {
+                var instance = systemModalAsset.Instantiate();
+                instance.style.position = Position.Absolute;
+                instance.style.left = 0;
+                instance.style.top = 0;
+                instance.style.right = 0;
+                instance.style.bottom = 0;
+                instance.pickingMode = PickingMode.Ignore;
+
+                var target = instance.Children().FirstOrDefault() ?? instance;
+                target.AddToClassList("phishing-target");
+                target.AddToClassList("phishing-hide-on-found");
+                target.tooltip = trap.tooltipMessage;
+                target.pickingMode = PickingMode.Position;
+                element.Add(instance);
+            }
+            return;
+        }
+
         if (trap.targetElementName == "cvv-container")
         {
             element.style.display = DisplayStyle.Flex;
@@ -195,10 +244,9 @@ public class ProceduralLevelGenerator : MonoBehaviour
                 var injected = trap.elementToInject.Instantiate();
                 element.Add(injected);
             }
-            return; // We don't mark the container itself as a target
+            return;
         }
 
-        // Standard traps - mark them
         element.AddToClassList("phishing-target");
         element.tooltip = trap.tooltipMessage;
 
@@ -232,9 +280,6 @@ public class ProceduralLevelGenerator : MonoBehaviour
                 }
                 break;
             case AnomalyType.ClickjackingOverlay:
-            case AnomalyType.SpawnFakeChat:
-            case AnomalyType.SpawnSystemModal:
-                Debug.LogWarning($"AnomalyType {trap.anomalyType} is deprecated in code. Use AnomalyType.InjectElement or AddClass instead.");
                 break;
         }
     }

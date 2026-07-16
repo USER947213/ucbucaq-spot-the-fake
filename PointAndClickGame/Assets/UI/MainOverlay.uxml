@@ -88,6 +88,7 @@
                     <ui:VisualElement class="menu-buttons-vertical-container">
                         <ui:Button name="btn-training" text="ТРЕНИРОВКА" class="btn-primary-gradient pill-button button-spacing" />
                         <ui:Button name="btn-tutorial" text="ОБУЧЕНИЕ" class="btn-ghost-gradient pill-button" />
+                        <ui:Button name="btn-quit" text="ВЫХОД" style="background-color: transparent; border-width: 0; color: #FF3B30; font-size: 14px; -unity-font-style: bold; margin-top: 28px; align-self: center; padding: 10px 20px;" />
                     </ui:VisualElement>
                 </ui:VisualElement>
             </ui:VisualElement>
@@ -102,6 +103,7 @@
         <ui:VisualElement name="game-screen" class="game-screen hidden">
             <!-- Верхняя панель статистики (Top Bar) -->
             <ui:VisualElement name="top-bar" class="top-bar">
+<ui:Label name="score-label" text="Очки: 0" class="header-text text-progress" style="color: #0052FF; background-color: rgba(0, 82, 255, 0.05);" />
                 <ui:Label name="timer-label" text="Время: 30" class="header-text text-timer" />
                 <ui:Label name="lives-label" text="Жизни: ❤️❤️❤️" class="header-text text-lives" />
                 <ui:Label name="progress-label" text="Найдено уловок: 0" class="header-text text-progress" />
@@ -114,7 +116,9 @@
             
             <!-- Нижняя панель действий (Bottom Bar) -->
             <ui:VisualElement name="bottom-bar" class="bottom-bar">
-                <ui:Label text="Считаете, что уловок больше нет?" class="footer-prompt" />
+		<ui:Button name="advice-button" text="СОВЕТ АНАЛИТИКА (2)" class="pill-button btn-ghost-gradient" style="padding: 10px 20px; font-size: 14px; margin: 0;" />
+                <ui:Button name="magnifier-button" text="ЛУПА: ВЫКЛ" class="pill-button btn-ghost-gradient" style="padding: 10px 20px; font-size: 14px; margin: 0 0 0 10px;" />
+		<ui:Label text="Считаете, что уловок больше нет?" class="footer-prompt" />
                 <ui:Button name="safe-button" text="СТРАНИЦА БЕЗОПАСНА" class="action-button" />
             </ui:VisualElement>
         </ui:VisualElement>
@@ -146,6 +150,23 @@
                         <ui:Label text="Вы допустили критическую ошибку в безопасности и пропустили фишинговую уловку мошенников." class="menu-desc-text" style="color: #FF3B30;" />
                     </ui:VisualElement>
                     
+		    <ui:Label name="final-score-label" text="Ваш результат: 0 очков" style="font-size: 20px; -unity-font-style: bold; color: #1A1F2C; margin-bottom: 20px; -unity-text-align: middle-center;" />
+
+		    <ui:VisualElement name="new-record-container" class="hidden" style="align-items: center; margin-bottom: 25px; width: 100%;">
+    			<ui:Label text="НОВЫЙ РЕКОРД!" style="color: #FF3B30; font-size: 16px; -unity-font-style: bold; letter-spacing: 2px; margin-bottom: 10px;" />
+    			<ui:TextField name="player-name-input" placeholder-text="Введите имя стажера..." style="width: 280px; height: 36px; margin-bottom: 12px; font-size: 14px;" />
+    			<ui:Button name="btn-save-score" text="СОХРАНИТЬ РЕКОРД" class="pill-button btn-primary-gradient" style="padding: 10px 20px; font-size: 13px;" />
+		    </ui:VisualElement>
+
+		    <ui:VisualElement name="leaderboard-container" style="align-items: center; margin-bottom: 30px; width: 320px; background-color: #FAFBFD; border-radius: 16px; padding: 20px; border-width: 1px; border-color: rgba(26, 31, 44, 0.05);">
+    			<ui:Label text="ТАБЛИЦА РЕКОРДОВ" style="font-size: 13px; -unity-font-style: bold; color: #2E266F; letter-spacing: 1.5px; margin-bottom: 15px;" />
+    			<ui:Label name="leader-row-0" text="1. Пусто — 0" style="font-size: 14px; margin-bottom: 6px; color: #1A1F2C;" />
+    			<ui:Label name="leader-row-1" text="2. Пусто — 0" style="font-size: 14px; margin-bottom: 6px; color: #1A1F2C;" />
+    			<ui:Label name="leader-row-2" text="3. Пусто — 0" style="font-size: 14px; margin-bottom: 6px; color: #1A1F2C;" />
+    			<ui:Label name="leader-row-3" text="4. Пусто — 0" style="font-size: 14px; margin-bottom: 6px; color: #1A1F2C;" />
+    			<ui:Label name="leader-row-4" text="5. Пусто — 0" style="font-size: 14px; margin-bottom: 6px; color: #1A1F2C;" />
+		    </ui:VisualElement>
+
                     <ui:Button name="restart-button" text="В ГЛАВНОЕ МЕНЮ" class="btn-primary-gradient pill-button button-full-width" />
                 </ui:VisualElement>
             </ui:VisualElement>

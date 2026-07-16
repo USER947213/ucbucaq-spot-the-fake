@@ -1,0 +1,15 @@
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" engine="UnityEngine.UIElements" editor="UnityEditor.UIElements">
+    <ui:VisualElement style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; background-color: rgba(0, 0, 0, 0.4); justify-content: center; align-items: center;">
+        <ui:VisualElement style="background-color: white; border-radius: 16px; width: 420px; overflow: hidden; border-width: 1px; border-color: #dee2e6; border-top-width: 6px; border-top-color: #FF3B30;">
+            <ui:VisualElement style="background-color: #FAFBFD; padding: 16px; border-bottom-width: 1px; border-color: #dee2e6; flex-direction: row; align-items: center;">
+                <ui:Label text="⚠️" style="font-size: 20px; margin-right: 10px;" />
+                <ui:Label text="Системная угроза" style="color: #FF3B30; font-size: 16px; -unity-font-style: bold;" />
+            </ui:VisualElement>
+            <ui:VisualElement style="padding: 24px;">
+                <ui:Label text="ВНИМАНИЕ! На вашем устройстве обнаружены критические вирусы. Безопасность ваших личных счетов находится под угрозой." style="color: #1A1F2C; font-size: 14px; white-space: normal; margin-bottom: 24px;" />
+                <ui:Label text="Срочно обратитесь в службу поддержки для очистки:" style="color: #5E6E85; font-size: 13px; -unity-font-style: bold; margin-bottom: 12px; white-space: normal;" />
+                <ui:Button text="СВЯЗАТЬСЯ (БЕСПЛАТНО)" style="background-color: #FF3B30; color: white; padding: 12px; border-radius: 8px; border-width: 0; font-size: 14px; -unity-font-style: bold; align-self: center;" />
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>
